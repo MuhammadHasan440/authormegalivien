@@ -1,0 +1,945 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+  <title>Spice Ratings | Author Meg Alivien</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Staatliches&family=Cinzel:wght@400;500;600;700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌶️</text></svg>">
+  <style>
+         @font-face {
+  font-family: 'Recoleta';
+  src: url('/fonts/Recoleta\ Alt\ SemiBold.otf') format('opentype');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --primary: #632c2a;
+      --primary-light: #ffdad9;
+      --primary-muted: #664346;
+      --accent: #ef969c;
+      --accent-soft: #f5b5ba;
+      --dark-bg: #1a2d2b;
+      --darker-bg: #0f1a19;
+      --white: #ffffff;
+      --black: #000000;
+      --soft-bg: #f9f5f3;
+      --cream: #fdf6f0;
+      --warm-white: #fff9f5;
+      --gold: #c9a96e;
+      --shadow-deep: rgba(26, 45, 43, 0.4);
+      --shadow-soft: rgba(99, 44, 42, 0.15);
+      --transition-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+      --transition-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Recoleta', serif;
+      background-color: var(--dark-bg);
+      color: #f0f0f0;
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    /* ─── AMBIENT PARTICLES ─── */
+    .ambient-particles {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+    .particle {
+      position: absolute;
+      opacity: 0.1;
+      animation: floatParticle var(--duration) var(--delay) ease-in-out infinite;
+    }
+    @keyframes floatParticle {
+      0%, 100% { transform: translateY(0) rotate(0deg); opacity: 0.06; }
+      50% { transform: translateY(-50px) rotate(20deg); opacity: 0.14; }
+    }
+
+    /* ─── HEADER ─── */
+    .site-header {
+      background: linear-gradient(135deg, var(--dark-bg) 0%, var(--darker-bg) 100%);
+      padding: 18px 24px;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(255,218,217,0.1);
+      transition: all 0.4s var(--transition-smooth);
+    }
+    .site-header.scrolled {
+      padding: 12px 24px;
+      box-shadow: 0 4px 30px rgba(0,0,0,0.3);
+    }
+
+    .header-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .logo {
+      position: relative;
+      transition: transform 0.3s var(--transition-bounce);
+    }
+    .logo:hover { transform: scale(1.05) rotate(-2deg); }
+    .logo img {
+      height: 55px; /* same rakho */
+  width: auto;
+  display: block;
+  transform: scale(2.4); /* yahan size control karo */
+  transform-origin: left center; /* left se grow kare */
+}
+    .logo::after {
+      content: '🦇';
+      position: absolute;
+      top: -8px;
+      right: -20px;
+      font-size: 1.2rem;
+      animation: batFlutter 2s ease-in-out infinite;
+      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+    }
+    @keyframes batFlutter {
+      0%, 100% { transform: translateY(0) rotate(-5deg); }
+      25% { transform: translateY(-6px) rotate(5deg); }
+      50% { transform: translateY(-3px) rotate(-3deg); }
+      75% { transform: translateY(-8px) rotate(3deg); }
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .nav-links a {
+      color: var(--primary-light);
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 0.9rem;
+      letter-spacing: 0.3px;
+      padding: 8px 14px;
+      border-radius: 20px;
+      transition: all 0.3s var(--transition-smooth);
+      position: relative;
+      overflow: hidden;
+    }
+    .nav-links a::before {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 50%;
+      width: 0; height: 2px;
+      background: var(--accent);
+      transition: all 0.3s var(--transition-smooth);
+      transform: translateX(-50%);
+      border-radius: 2px;
+    }
+    .nav-links a:hover {
+      color: var(--accent);
+      background: rgba(255,218,217,0.08);
+    }
+    .nav-links a:hover::before { width: 60%; }
+    .nav-links a.active {
+      color: var(--accent);
+      font-weight: 700;
+      background: rgba(239,150,156,0.1);
+    }
+
+    .shop-btn {
+      background: linear-gradient(135deg, var(--primary-light) 0%, var(--accent-soft) 100%);
+      color: var(--primary) !important;
+      padding: 10px 24px !important;
+      border-radius: 30px;
+      font-weight: 700 !important;
+      margin-left: 8px;
+      box-shadow: 0 4px 15px rgba(239,150,156,0.3);
+      transition: all 0.3s var(--transition-bounce) !important;
+    }
+    .shop-btn:hover {
+      transform: translateY(-2px) scale(1.05);
+      box-shadow: 0 8px 25px rgba(239,150,156,0.5);
+    }
+
+    .hamburger {
+      display: none;
+      font-size: 26px;
+      color: var(--primary-light);
+      cursor: pointer;
+      padding: 8px;
+      border-radius: 8px;
+      transition: all 0.3s;
+    }
+    .hamburger:hover { background: rgba(255,218,217,0.1); }
+
+    /* ─── SPICE HERO ─── */
+    .spice-hero {
+      background: linear-gradient(135deg, var(--primary) 0%, #4a1f1e 50%, var(--primary) 100%);
+      padding: 70px 24px 60px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      border-bottom: 4px solid var(--accent);
+      height: 76vh;
+    }
+    .spice-hero::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: 
+        radial-gradient(circle at 20% 30%, rgba(239,150,156,0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 70%, rgba(255,218,217,0.06) 0%, transparent 50%);
+      pointer-events: none;
+    }
+    .floating-decor {
+      position: absolute;
+      font-size: 2rem;
+      opacity: 0.12;
+      animation: floatDecor 6s ease-in-out infinite;
+      pointer-events: none;
+      z-index: 1;
+    }
+    .floating-decor:nth-child(1) { top: 15%; left: 10%; animation-delay: 0s; }
+    .floating-decor:nth-child(2) { top: 25%; right: 12%; animation-delay: 1.5s; font-size: 1.5rem; }
+    .floating-decor:nth-child(3) { bottom: 20%; left: 15%; animation-delay: 3s; font-size: 1.8rem; }
+    .floating-decor:nth-child(4) { bottom: 30%; right: 10%; animation-delay: 4.5s; font-size: 2.2rem; }
+    @keyframes floatDecor {
+      0%, 100% { transform: translateY(0) rotate(0deg); }
+      33% { transform: translateY(-15px) rotate(5deg); }
+      66% { transform: translateY(-8px) rotate(-3deg); }
+    }
+
+    .spice-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255,218,217,0.12);
+      border: 1px solid rgba(255,218,217,0.25);
+      padding: 8px 20px;
+      border-radius: 30px;
+      font-size: 0.85rem;
+      color: var(--primary-light);
+      margin-bottom: 20px;
+      backdrop-filter: blur(10px);
+      position: relative;
+      z-index: 2;
+      animation: fadeInUp 1s ease-out 0.2s both;
+    }
+    .spice-badge span { animation: sparkle 2s ease-in-out infinite; }
+    @keyframes sparkle {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.6; transform: scale(1.2); }
+    }
+
+    .spice-title {
+      font-family: 'Cinzel', 'Playfair Display', serif;
+      font-size: 3.2rem;
+      font-weight: 700;
+      color: white;
+      margin-bottom: 16px;
+      line-height: 1.2;
+      text-shadow: 0 4px 20px rgba(0,0,0,0.3);
+      position: relative;
+      z-index: 2;
+      animation: fadeInUp 1s ease-out 0.4s both;
+    }
+    .spice-title .accent-word {
+      color: var(--accent);
+      position: relative;
+      display: inline-block;
+    }
+    .spice-title .accent-word::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: 100%;
+      height: 3px;
+      background: linear-gradient(90deg, transparent, var(--accent), transparent);
+      border-radius: 2px;
+    }
+    .spice-description {
+      font-size: 1.15rem;
+      max-width: 650px;
+      margin: 0 auto;
+      color: rgba(255,218,217,0.85);
+      font-weight: 400;
+      line-height: 1.7;
+      position: relative;
+      z-index: 2;
+      animation: fadeInUp 1s ease-out 0.6s both;
+    }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ─── RATINGS GRID ─── */
+    .ratings-section {
+      background: linear-gradient(135deg, var(--dark-bg) 0%, var(--darker-bg) 50%, var(--dark-bg) 100%);
+      padding: 60px 24px;
+      position: relative;
+      overflow: hidden;
+    }
+    .ratings-section::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 60 60'%3E%3Cpath d='M30 5 L35 20 L50 20 L38 30 L42 45 L30 35 L18 45 L22 30 L10 20 L25 20 Z' fill='none' stroke='%23ffdad9' stroke-width='0.5' opacity='0.03'/%3E%3C/svg%3E");
+      pointer-events: none;
+    }
+
+    .ratings-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 30px;
+      max-width: 900px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 2;
+    }
+
+    .rating-card {
+      background: rgba(255, 218, 217, 0.06);
+      border-radius: 28px;
+      padding: 24px;
+      text-align: center;
+      transition: all 0.4s var(--transition-bounce);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 218, 217, 0.15);
+      position: relative;
+      overflow: hidden;
+    }
+    .rating-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--accent), var(--primary-light));
+      transform: scaleX(0);
+      transition: transform 0.4s var(--transition-smooth);
+      border-radius: 28px 28px 0 0;
+    }
+    .rating-card:hover {
+      transform: translateY(-10px);
+      border-color: rgba(239,150,156,0.4);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+    }
+    .rating-card:hover::before { transform: scaleX(1); }
+
+    .rating-card img {
+      width: 100%;
+      max-width: 360px;
+      height: auto;
+      border-radius: 20px;
+      margin: 0 auto 18px;
+      
+      transition: all 0.4s var(--transition-smooth);
+    }
+    .rating-card:hover img {
+      transform: scale(1.03);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+    }
+
+    .rating-peppers {
+      font-size: 2rem;
+      margin-bottom: 8px;
+      display: inline-block;
+    }
+    .rating-peppers .chili {
+      display: inline-block;
+      animation: chiliWiggle 2s ease-in-out infinite;
+    }
+    .rating-peppers .chili:nth-child(2) { animation-delay: 0.2s; }
+    .rating-peppers .chili:nth-child(3) { animation-delay: 0.4s; }
+    .rating-peppers .chili:nth-child(4) { animation-delay: 0.6s; }
+    @keyframes chiliWiggle {
+      0%, 100% { transform: rotate(0deg) scale(1); }
+      25% { transform: rotate(-10deg) scale(1.1); }
+      75% { transform: rotate(10deg) scale(1.1); }
+    }
+
+    .rating-label {
+      font-family: 'Staatliches', cursive;
+      font-size: 1.8rem;
+      color: var(--accent);
+      letter-spacing: 2px;
+      margin-top: 8px;
+    }
+    .rating-subtitle {
+      font-size: 0.95rem;
+      color: rgba(255,218,217,0.7);
+      margin-top: 4px;
+      font-weight: 400;
+    }
+
+    /* Creature accent per card */
+    .rating-card .creature-accent {
+      position: absolute;
+      font-size: 2rem;
+      opacity: 0.15;
+      animation: gentleFloat 4s ease-in-out infinite;
+      pointer-events: none;
+    }
+    .rating-card:nth-child(1) .creature-accent { top: 15px; right: 15px; animation-delay: 0s; }
+    .rating-card:nth-child(2) .creature-accent { bottom: 15px; left: 15px; animation-delay: 1s; }
+    .rating-card:nth-child(3) .creature-accent { top: 15px; left: 15px; animation-delay: 2s; }
+    .rating-card:nth-child(4) .creature-accent { bottom: 15px; right: 15px; animation-delay: 3s; }
+    @keyframes gentleFloat {
+      0%, 100% { transform: translateY(0) rotate(0deg); }
+      50% { transform: translateY(-10px) rotate(5deg); }
+    }
+
+    /* ─── BOOK SPICE MAP ─── */
+    .spice-map {
+      background: linear-gradient(135deg, var(--cream) 0%, var(--soft-bg) 100%);
+      padding: 60px 24px;
+      text-align: center;
+    }
+    .spice-map h3 {
+      font-family: 'Cinzel', serif;
+      font-size: 1.8rem;
+      color: var(--primary);
+      margin-bottom: 16px;
+    }
+    .spice-map p {
+      max-width: 600px;
+      margin: 0 auto 30px;
+      color: var(--primary-muted);
+      font-size: 1rem;
+      line-height: 1.7;
+    }
+    .book-spice-list {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      flex-wrap: wrap;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    .book-spice-item {
+      background: white;
+      padding: 18px 28px;
+      border-radius: 20px;
+      box-shadow: 0 6px 20px var(--shadow-soft);
+      transition: all 0.4s var(--transition-bounce);
+      min-width: 200px;
+    }
+    .book-spice-item:hover {
+      transform: translateY(-8px) scale(1.03);
+      box-shadow: 0 15px 35px var(--shadow-soft);
+    }
+    .book-spice-item .book-name {
+      font-family: 'Cinzel', serif;
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--primary);
+      margin-bottom: 6px;
+    }
+    .book-spice-item .pepper-count {
+      font-size: 1.4rem;
+      letter-spacing: 2px;
+    }
+    .book-spice-item .spice-desc {
+      font-size: 0.85rem;
+      color: var(--primary-muted);
+      margin-top: 4px;
+    }
+
+    /* ─── FOOTER ─── */
+    .site-footer {
+      background: linear-gradient(135deg, var(--primary) 0%, #4a1f1e 100%);
+      text-align: center;
+      padding: 55px 24px 30px;
+      position: relative;
+      overflow: hidden;
+    }
+    .site-footer::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--accent), var(--primary-light), var(--accent));
+      background-size: 200% 100%;
+      animation: gradientShift 5s ease infinite;
+    }
+    @keyframes gradientShift {
+      0%, 100% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+    }
+    .footer-content {
+      position: relative;
+      z-index: 2;
+    }
+    .footer-logo-wrap {
+      position: relative;
+      display: inline-block;
+      margin-bottom: 20px;
+    }
+    .footer-logo {
+      width: 130px;
+      filter: brightness(0) invert(1);
+      transition: transform 0.4s var(--transition-bounce);
+    }
+    .footer-logo-wrap:hover .footer-logo { transform: scale(1.1) rotate(-3deg); }
+    .footer-logo-wrap::after {
+      content: '👻';
+      position: absolute;
+      top: -10px;
+      right: -25px;
+      font-size: 1.5rem;
+      animation: ghostFloat 3s ease-in-out infinite;
+    }
+    @keyframes ghostFloat {
+      0%, 100% { transform: translateY(0) scale(1); }
+      50% { transform: translateY(-10px) scale(1.1); }
+    }
+
+    .newsletter-row {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      margin: 25px 0;
+      flex-wrap: wrap;
+    }
+    .newsletter-row input {
+      padding: 14px 22px;
+      border-radius: 30px;
+      border: 2px solid rgba(255,218,217,0.3);
+      min-width: 280px;
+      font-size: 0.95rem;
+      background: rgba(255,255,255,0.08);
+      color: white;
+      backdrop-filter: blur(10px);
+      transition: all 0.3s var(--transition-smooth);
+      outline: none;
+    }
+    .newsletter-row input::placeholder { color: rgba(255,218,217,0.6); }
+    .newsletter-row input:focus {
+      border-color: var(--accent);
+      background: rgba(255,255,255,0.12);
+      box-shadow: 0 0 20px rgba(239,150,156,0.2);
+    }
+    .newsletter-row button {
+      background: linear-gradient(135deg, var(--primary-light) 0%, var(--accent-soft) 100%);
+      color: var(--primary);
+      border: none;
+      padding: 14px 32px;
+      border-radius: 30px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.4s var(--transition-bounce);
+      position: relative;
+      overflow: hidden;
+    }
+    .newsletter-row button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 30px rgba(239,150,156,0.4);
+    }
+    .newsletter-row button::after {
+      content: '✨';
+      margin-left: 6px;
+      display: inline-block;
+      animation: sparkle 2s ease-in-out infinite;
+    }
+
+    .footer-social {
+      display: flex;
+      justify-content: center;
+      gap: 18px;
+      margin: 25px 0;
+    }
+    .footer-social a {
+      color: var(--primary-light);
+      text-decoration: none;
+      font-size: 1.6rem;
+      width: 50px;
+      height: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      background: rgba(255,218,217,0.08);
+      border: 2px solid rgba(255,218,217,0.2);
+      transition: all 0.4s var(--transition-bounce);
+    }
+    .footer-social a:hover {
+      background: rgba(255,218,217,0.2);
+      border-color: var(--accent);
+      transform: translateY(-5px) scale(1.1);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    }
+    .footer-text {
+      color: rgba(255,218,217,0.7);
+      font-size: 0.9rem;
+      margin-top: 25px;
+      font-weight: 300;
+    }
+
+    /* ─── SCROLL REVEAL ─── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: all 0.8s var(--transition-smooth);
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .reveal-delay-1 { transition-delay: 0.15s; }
+    .reveal-delay-2 { transition-delay: 0.3s; }
+    .reveal-delay-3 { transition-delay: 0.45s; }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 768px) {
+      .nav-links {
+        display: none;
+        flex-direction: column;
+        width: 100%;
+        background: var(--dark-bg);
+        padding: 24px;
+        margin-top: 15px;
+        border-radius: 16px;
+        gap: 8px;
+        box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+      }
+      .nav-links.active { display: flex; animation: slideDown 0.4s var(--transition-smooth); }
+      @keyframes slideDown {
+        from { opacity: 0; transform: translateY(-20px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+      .hamburger { display: block; }
+      .spice-title { font-size: 2.4rem; }
+      .ratings-grid { grid-template-columns: 1fr; }
+      .book-spice-list { flex-direction: column; align-items: center; }
+    }
+    @media (max-width: 480px) {
+      .spice-title { font-size: 1.9rem; }
+      .rating-label { font-size: 1.4rem; }
+    }
+
+
+     /* ─── SCROLLING BANNER ─── */
+    .scrolling-banner {
+      background: linear-gradient(90deg, var(--primary-light) 0%, var(--accent-soft) 50%, var(--primary-light) 100%);
+      background-size: 200% 100%;
+      animation: gradientShift 8s ease infinite;
+      padding: 16px 0;
+      overflow: hidden;
+      white-space: nowrap;
+      font-family: 'Cinzel', 'Playfair Display', serif;
+      font-weight: 600;
+      font-size: 1.6rem;
+      letter-spacing: 1.5px;
+      color: var(--primary);
+      position: relative;
+      border-top: 2px solid var(--accent);
+      border-bottom: 2px solid var(--accent);
+    }
+    @keyframes gradientShift {
+      0%, 100% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+    }
+    .scrolling-banner::before,
+    .scrolling-banner::after {
+      content: '👻';
+      position: absolute;
+      font-size: 1.4rem;
+      animation: ghostFloat 3s ease-in-out infinite;
+      z-index: 2;
+    }
+    .scrolling-banner::before { left: 30px; animation-delay: 0s; }
+    .scrolling-banner::after { right: 30px; animation-delay: 1.5s; }
+    @keyframes ghostFloat {
+      0%, 100% { transform: translateY(0) scale(1); }
+      50% { transform: translateY(-10px) scale(1.1); }
+    }
+
+    .scrolling-text {
+      display: inline-block;
+      animation: scrollText 22s linear infinite;
+      padding-left: 100%;
+    }
+    @keyframes scrollText {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-100%); }
+    }
+  </style>
+
+</head>
+<body>
+  <!-- Ambient floating particles -->
+  <div class="ambient-particles" id="particles"></div>
+
+  <div id="app">
+    <!-- Header -->
+    <header class="site-header" id="siteHeader">
+      <div class="header-inner">
+        <div class="logo">
+          <img src="/images/MA_fullname_white copy 2.png" alt="Meg Alivien logo">
+        </div>
+        <div class="hamburger" id="hamburger">☰</div>
+        <nav class="nav-links" id="navLinks">
+          <a href="/index.html">Home</a>
+          <a href="/monster.html">Monster Boyfriends</a>
+          <a href="/spice.html" class="active">Spice Ratings</a>
+          <a href="/events.html">Events</a>
+          <a href="/newsletter.html">Newsletter</a>
+          <a href="/contact.html">Contact</a>
+          <a href="/magic.html">Of Magic and Men</a>
+          <a href="/shop.html" class="shop-btn">Shop All</a>
+        </nav>
+      </div>
+    </header>
+
+    <!-- Spice Hero -->
+    <div class="spice-hero">
+      <div class="floating-decor">🦇</div>
+      <div class="floating-decor">👻</div>
+      <div class="floating-decor">🐺</div>
+      <div class="floating-decor">🍓</div>
+      <div class="spice-badge">
+        <span>✨</span> Reader Guide <span>✨</span>
+      </div>
+      <h1 class="spice-title">
+        <span class="accent-word">🌶️</span> Spice Rating Scale
+      </h1>
+      <p class="spice-description">
+        This is how I rate the spice in my books on a scale of 1 to 5 — 1 being the lowest and 5 being the highest! Find your perfect heat level and dive into the coziest (or spiciest) reads.
+      </p>
+    </div>
+       <div class="scrolling-banner">
+      <div class="scrolling-text">
+        🦇 Werewolves, Vampires, and Ghosts... oh my! ✦ Paranormal fantasy & romance by Meg Alivien ✦ Cozy reads with a little spice! 🍑
+      </div>
+    </div>
+
+    <!-- Ratings Grid -->
+    <div class="ratings-section">
+      <div class="ratings-grid">
+        <div class="rating-card reveal">
+          <span class="creature-accent">🦇</span>
+          <img src="/images/Author Wrapped (1)_1777079945.webp" alt="Spice level 1">
+          <div class="rating-peppers">
+            <span class="chili">🌶️</span>
+          </div>
+          <div class="rating-label">1 pepper</div>
+          <div class="rating-subtitle">Very Mild · Sweet & cozy</div>
+        </div>
+
+        <div class="rating-card reveal reveal-delay-1">
+          <span class="creature-accent">🐺</span>
+          <img src="images/Cover Reveal_1727202516.webp" alt="Spice level 2">
+          <div class="rating-peppers">
+            <span class="chili">🌶️</span>
+            <span class="chili">🌶️</span>
+          </div>
+          <div class="rating-label">2 peppers</div>
+          <div class="rating-subtitle">Warm · A little spice</div>
+        </div>
+
+        <div class="rating-card reveal reveal-delay-2">
+          <span class="creature-accent">👻</span>
+          <img src="images/All I Want For Christmas Is... (1)_1748643476.webp" alt="Spice level 3">
+          <div class="rating-peppers">
+            <span class="chili">🌶️</span>
+            <span class="chili">🌶️</span>
+            <span class="chili">🌶️</span>
+          </div>
+          <div class="rating-label">3 peppers</div>
+          <div class="rating-subtitle">Hot · Moderate heat</div>
+        </div>
+
+        <div class="rating-card reveal reveal-delay-3">
+          <span class="creature-accent">🧛</span>
+          <img src="images/Meet Theo (2)_1773512426.webp" alt="Spice level 4">
+          <div class="rating-peppers">
+            <span class="chili">🌶️</span>
+            <span class="chili">🌶️</span>
+            <span class="chili">🌶️</span>
+            <span class="chili">🌶️</span>
+          </div>
+          <div class="rating-label">4 peppers</div>
+          <div class="rating-subtitle">Fiery · High heat</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Book Spice Map -->
+    <div class="spice-map">
+      <h3 class="reveal">Where Do My Books Land?</h3>
+      <p class="reveal reveal-delay-1">
+        Here's a quick guide to help you pick the perfect read based on your spice preference!
+      </p>
+      <div class="book-spice-list reveal reveal-delay-2">
+        <div class="book-spice-item">
+          <div class="book-name">HOWL</div>
+          <div class="pepper-count">🌶️🌶️</div>
+          <div class="spice-desc">2 peppers · Warm</div>
+        </div>
+        <div class="book-spice-item">
+          <div class="book-name">HUNT</div>
+          <div class="pepper-count">🌶️🌶️🌶️</div>
+          <div class="spice-desc">3 peppers · Hot</div>
+        </div>
+        <div class="book-spice-item">
+          <div class="book-name">HAUNT</div>
+          <div class="pepper-count">🌶️🌶️</div>
+          <div class="spice-desc">1.5 peppers · Mild</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="site-footer" id="newsletter">
+      <div class="footer-content">
+        <div class="footer-logo-wrap">
+          <img src="/images/duke.webp" alt="Duke Books" class="footer-logo">
+        </div>
+        <div class="newsletter-row">
+          <input type="email" placeholder="Your email address ✉️" aria-label="Email" id="newsletterEmail">
+          <button id="newsletterBtn">Subscribe</button>
+        </div>
+        <div class="footer-social">
+          <a href="#" aria-label="Facebook" title="Facebook">📘</a>
+          <a href="#" aria-label="Instagram" title="Instagram">📷</a>
+          <a href="#" aria-label="TikTok" title="TikTok">🎵</a>
+          <a href="#" aria-label="Goodreads" title="Goodreads">📚</a>
+        </div>
+        <div class="footer-text">
+          © 2026 Spice Ratings · Meg Alivien 🌶️🦇👻
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <script>
+    (function() {
+      // Generate ambient particles
+      const particlesContainer = document.getElementById('particles');
+      const particleEmojis = ['🦇', '👻', '🐺', '🍓', '🍑', '🍊', '✨', '🌙', '🧛', '🌶️'];
+      for (let i = 0; i < 18; i++) {
+        const p = document.createElement('div');
+        p.className = 'particle';
+        p.textContent = particleEmojis[Math.floor(Math.random() * particleEmojis.length)];
+        p.style.left = Math.random() * 100 + '%';
+        p.style.top = Math.random() * 100 + '%';
+        p.style.fontSize = (Math.random() * 1.5 + 0.8) + 'rem';
+        p.style.setProperty('--duration', (Math.random() * 8 + 6) + 's');
+        p.style.setProperty('--delay', (Math.random() * 5) + 's');
+        particlesContainer.appendChild(p);
+      }
+
+      // Header scroll effect
+      const header = document.getElementById('siteHeader');
+      window.addEventListener('scroll', () => {
+        if (window.scrollY > 50) {
+          header.classList.add('scrolled');
+        } else {
+          header.classList.remove('scrolled');
+        }
+      });
+
+      // Hamburger menu
+      const hamburger = document.getElementById('hamburger');
+      const navLinks = document.getElementById('navLinks');
+      if (hamburger && navLinks) {
+        hamburger.addEventListener('click', function(e) {
+          e.stopPropagation();
+          navLinks.classList.toggle('active');
+          hamburger.textContent = navLinks.classList.contains('active') ? '✕' : '☰';
+        });
+      }
+      document.addEventListener('click', function(event) {
+        if (navLinks && navLinks.classList.contains('active')) {
+          if (!event.target.closest('.site-header')) {
+            navLinks.classList.remove('active');
+            hamburger.textContent = '☰';
+          }
+        }
+      });
+
+      // Scroll reveal animation
+      const revealElements = document.querySelectorAll('.reveal');
+      const revealObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+          }
+        });
+      }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+      revealElements.forEach(el => revealObserver.observe(el));
+
+      // Newsletter with cute toast
+      const newsletterBtn = document.getElementById('newsletterBtn');
+      const newsletterEmail = document.getElementById('newsletterEmail');
+      if (newsletterBtn) {
+        newsletterBtn.addEventListener('click', function(e) {
+          e.preventDefault();
+          if (newsletterEmail && newsletterEmail.value.trim() !== '') {
+            const toast = document.createElement('div');
+            toast.innerHTML = '🎉 Thank you for subscribing to Meg s newsletter! 💌';
+            toast.style.cssText = `
+              position: fixed;
+              bottom: 30px;
+              left: 50%;
+              transform: translateX(-50%) translateY(100px);
+              background: linear-gradient(135deg, #ffdad9, #f5b5ba);
+              color: #632c2a;
+              padding: 16px 32px;
+              border-radius: 30px;
+              font-weight: 600;
+              box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+              z-index: 9999;
+              transition: transform 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+              font-family: 'DM Sans', sans-serif;
+            `;
+            document.body.appendChild(toast);
+            setTimeout(() => toast.style.transform = 'translateX(-50%) translateY(0)', 100);
+            setTimeout(() => {
+              toast.style.transform = 'translateX(-50%) translateY(100px)';
+              setTimeout(() => toast.remove(), 500);
+            }, 3000);
+            newsletterEmail.value = '';
+          } else {
+            newsletterEmail.style.borderColor = '#ef969c';
+            newsletterEmail.style.animation = 'shake 0.5s ease';
+            setTimeout(() => {
+              newsletterEmail.style.borderColor = '';
+              newsletterEmail.style.animation = '';
+            }, 500);
+          }
+        });
+      }
+
+      // Add shake keyframe
+      const style = document.createElement('style');
+      style.textContent = `
+        @keyframes shake {
+          0%, 100% { transform: translateX(0); }
+          25% { transform: translateX(-8px); }
+          75% { transform: translateX(8px); }
+        }
+      `;
+      document.head.appendChild(style);
+
+      console.log('🌶️ Spice Ratings premium page ready! 🦇👻🐺');
+    })();
+  </script>
+</body>
+</html>

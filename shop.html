@@ -1,0 +1,1002 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+  <title>Shop All | Author Meg Alivien</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Staatliches&family=Cinzel:wght@400;500;600;700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🛒</text></svg>">
+  <style>
+          @font-face {
+  font-family: 'Recoleta';
+  src: url('/fonts/Recoleta\ Alt\ SemiBold.otf') format('opentype');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --primary: #632c2a;
+      --primary-light: #ffdad9;
+      --primary-muted: #664346;
+      --accent: #ef969c;
+      --accent-soft: #f5b5ba;
+      --dark-bg: #1a2d2b;
+      --darker-bg: #0f1a19;
+      --white: #ffffff;
+      --black: #000000;
+      --soft-bg: #f9f5f3;
+      --cream: #fdf6f0;
+      --warm-white: #fff9f5;
+      --gold: #c9a96e;
+      --shadow-deep: rgba(26, 45, 43, 0.4);
+      --shadow-soft: rgba(99, 44, 42, 0.15);
+      --transition-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+      --transition-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Recoleta', serif;
+      background-color: var(--dark-bg);
+      color: #f0f0f0;
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    /* ─── AMBIENT PARTICLES ─── */
+    .ambient-particles {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+    .particle {
+      position: absolute;
+      opacity: 0.1;
+      animation: floatParticle var(--duration) var(--delay) ease-in-out infinite;
+    }
+    @keyframes floatParticle {
+      0%, 100% { transform: translateY(0) rotate(0deg); opacity: 0.06; }
+      50% { transform: translateY(-50px) rotate(20deg); opacity: 0.14; }
+    }
+
+    /* ─── HEADER ─── */
+    .site-header {
+      background: linear-gradient(135deg, var(--dark-bg) 0%, var(--darker-bg) 100%);
+      padding: 18px 24px;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(255,218,217,0.1);
+      transition: all 0.4s var(--transition-smooth);
+    }
+    .site-header.scrolled {
+      padding: 12px 24px;
+      box-shadow: 0 4px 30px rgba(0,0,0,0.3);
+    }
+
+    .header-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .logo {
+      position: relative;
+      transition: transform 0.3s var(--transition-bounce);
+    }
+    .logo:hover { transform: scale(1.05) rotate(-2deg); }
+    .logo img {
+      height: 55px; /* same rakho */
+  width: auto;
+  display: block;
+  transform: scale(2.4); /* yahan size control karo */
+  transform-origin: left center; /* left se grow kare */
+}
+    .logo::after {
+      content: '🦇';
+      position: absolute;
+      top: -8px;
+      right: -20px;
+      font-size: 1.2rem;
+      animation: batFlutter 2s ease-in-out infinite;
+      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+    }
+    @keyframes batFlutter {
+      0%, 100% { transform: translateY(0) rotate(-5deg); }
+      25% { transform: translateY(-6px) rotate(5deg); }
+      50% { transform: translateY(-3px) rotate(-3deg); }
+      75% { transform: translateY(-8px) rotate(3deg); }
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .nav-links a {
+      color: var(--primary-light);
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 0.9rem;
+      letter-spacing: 0.3px;
+      padding: 8px 14px;
+      border-radius: 20px;
+      transition: all 0.3s var(--transition-smooth);
+      position: relative;
+      overflow: hidden;
+    }
+    .nav-links a::before {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 50%;
+      width: 0; height: 2px;
+      background: var(--accent);
+      transition: all 0.3s var(--transition-smooth);
+      transform: translateX(-50%);
+      border-radius: 2px;
+    }
+    .nav-links a:hover {
+      color: var(--accent);
+      background: rgba(255,218,217,0.08);
+    }
+    .nav-links a:hover::before { width: 60%; }
+    .nav-links a.active {
+      color: var(--accent);
+      font-weight: 700;
+      background: rgba(239,150,156,0.1);
+    }
+
+    .shop-btn {
+      background: linear-gradient(135deg, var(--primary-light) 0%, var(--accent-soft) 100%);
+      color: var(--primary) !important;
+      padding: 10px 24px !important;
+      border-radius: 30px;
+      font-weight: 700 !important;
+      margin-left: 8px;
+      box-shadow: 0 4px 15px rgba(239,150,156,0.3);
+      transition: all 0.3s var(--transition-bounce) !important;
+    }
+    .shop-btn:hover {
+      transform: translateY(-2px) scale(1.05);
+      box-shadow: 0 8px 25px rgba(239,150,156,0.5);
+    }
+
+    .hamburger {
+      display: none;
+      font-size: 26px;
+      color: var(--primary-light);
+      cursor: pointer;
+      padding: 8px;
+      border-radius: 8px;
+      transition: all 0.3s;
+    }
+    .hamburger:hover { background: rgba(255,218,217,0.1); }
+
+    /* ─── SHOP HERO ─── */
+    .shop-hero {
+      background: linear-gradient(135deg, var(--primary) 0%, #4a1f1e 50%, var(--primary) 100%);
+      padding: 70px 24px 60px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      border-bottom: 4px solid var(--accent);
+      height: 76vh;
+    }
+    .shop-hero::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: 
+        radial-gradient(circle at 30% 40%, rgba(239,150,156,0.1) 0%, transparent 50%),
+        radial-gradient(circle at 70% 60%, rgba(255,218,217,0.06) 0%, transparent 50%);
+      pointer-events: none;
+    }
+    .floating-decor {
+      position: absolute;
+      font-size: 2rem;
+      opacity: 0.12;
+      animation: floatDecor 6s ease-in-out infinite;
+      pointer-events: none;
+      z-index: 1;
+    }
+    .floating-decor:nth-child(1) { top: 15%; left: 10%; animation-delay: 0s; }
+    .floating-decor:nth-child(2) { top: 25%; right: 12%; animation-delay: 1.5s; font-size: 1.5rem; }
+    .floating-decor:nth-child(3) { bottom: 20%; left: 15%; animation-delay: 3s; font-size: 1.8rem; }
+    .floating-decor:nth-child(4) { bottom: 30%; right: 10%; animation-delay: 4.5s; font-size: 2.2rem; }
+    @keyframes floatDecor {
+      0%, 100% { transform: translateY(0) rotate(0deg); }
+      33% { transform: translateY(-15px) rotate(5deg); }
+      66% { transform: translateY(-8px) rotate(-3deg); }
+    }
+
+    .shop-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255,218,217,0.12);
+      border: 1px solid rgba(255,218,217,0.25);
+      padding: 8px 20px;
+      border-radius: 30px;
+      font-size: 0.85rem;
+      color: var(--primary-light);
+      margin-bottom: 20px;
+      backdrop-filter: blur(10px);
+      position: relative;
+      z-index: 2;
+      animation: fadeInUp 1s ease-out 0.2s both;
+    }
+    .shop-badge span { animation: sparkle 2s ease-in-out infinite; }
+    @keyframes sparkle {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.6; transform: scale(1.2); }
+    }
+
+    .shop-title {
+      font-family: 'Cinzel', 'Playfair Display', serif;
+      font-size: 3.2rem;
+      font-weight: 700;
+      color: white;
+      margin-bottom: 12px;
+      line-height: 1.2;
+      text-shadow: 0 4px 20px rgba(0,0,0,0.3);
+      position: relative;
+      z-index: 2;
+      animation: fadeInUp 1s ease-out 0.4s both;
+    }
+    .shop-title .accent-word {
+      color: var(--accent);
+      position: relative;
+      display: inline-block;
+    }
+    .shop-title .accent-word::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: 100%;
+      height: 3px;
+      background: linear-gradient(90deg, transparent, var(--accent), transparent);
+      border-radius: 2px;
+    }
+    .shop-subtitle {
+      font-size: 1.15rem;
+      color: rgba(255,218,217,0.8);
+      font-weight: 400;
+      max-width: 600px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 2;
+      animation: fadeInUp 1s ease-out 0.6s both;
+    }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ─── PRODUCT GRID ─── */
+    .shop-section {
+      background: linear-gradient(135deg, var(--dark-bg) 0%, var(--darker-bg) 50%, var(--dark-bg) 100%);
+      padding: 60px 24px;
+      position: relative;
+      overflow: hidden;
+    }
+    .shop-section::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 60 60'%3E%3Cpath d='M30 5 L35 20 L50 20 L38 30 L42 45 L30 35 L18 45 L22 30 L10 20 L25 20 Z' fill='none' stroke='%23ffdad9' stroke-width='0.5' opacity='0.03'/%3E%3C/svg%3E");
+      pointer-events: none;
+    }
+
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 30px;
+      max-width: 1100px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 2;
+    }
+
+    .product-card {
+      background: rgba(255, 218, 217, 0.05);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 218, 217, 0.15);
+      border-radius: 24px;
+      overflow: hidden;
+      transition: all 0.4s var(--transition-bounce);
+      position: relative;
+    }
+    .product-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--accent), var(--primary-light));
+      transform: scaleX(0);
+      transition: transform 0.4s var(--transition-smooth);
+      z-index: 3;
+    }
+    .product-card:hover {
+      transform: translateY(-10px);
+      border-color: rgba(239,150,156,0.3);
+      box-shadow: 0 25px 50px rgba(0,0,0,0.3);
+    }
+    .product-card:hover::before { transform: scaleX(1); }
+
+    .product-image-wrap {
+      position: relative;
+      overflow: hidden;
+      padding: 20px 20px 0;
+    }
+    .product-image-wrap img {
+      width: 100%;
+      height: 280px;
+      object-fit: cover;
+      border-radius: 16px;
+      transition: all 0.5s var(--transition-smooth);
+      display: block;
+    }
+    .product-card:hover .product-image-wrap img {
+      transform: scale(1.05);
+    }
+
+    .product-creature {
+      position: absolute;
+      top: 30px;
+      right: 30px;
+      font-size: 2rem;
+      filter: drop-shadow(0 3px 6px rgba(0,0,0,0.4));
+      animation: gentleFloat 4s ease-in-out infinite;
+      z-index: 2;
+      pointer-events: none;
+    }
+    .product-card:nth-child(1) .product-creature { animation-delay: 0s; }
+    .product-card:nth-child(2) .product-creature { animation-delay: 0.8s; }
+    .product-card:nth-child(3) .product-creature { animation-delay: 1.6s; }
+    .product-card:nth-child(4) .product-creature { animation-delay: 2.4s; }
+    .product-card:nth-child(5) .product-creature { animation-delay: 3.2s; }
+    @keyframes gentleFloat {
+      0%, 100% { transform: translateY(0) rotate(0deg); }
+      50% { transform: translateY(-10px) rotate(5deg); }
+    }
+
+    .product-info {
+      padding: 20px 24px 24px;
+    }
+    .product-name {
+      font-family: 'Cinzel', 'Playfair Display', serif;
+      font-size: 1.3rem;
+      font-weight: 600;
+      color: var(--primary-light);
+      margin-bottom: 6px;
+      line-height: 1.3;
+    }
+    .product-type {
+      font-size: 0.85rem;
+      color: var(--accent);
+      font-weight: 500;
+      margin-bottom: 10px;
+      letter-spacing: 0.5px;
+    }
+    .product-price {
+      font-family: 'Staatliches', cursive;
+      font-size: 1.6rem;
+      color: white;
+      letter-spacing: 1px;
+      margin-bottom: 14px;
+    }
+    .product-price .original {
+      font-size: 1rem;
+      color: rgba(255,255,255,0.4);
+      text-decoration: line-through;
+      margin-left: 8px;
+    }
+    .buy-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 28px;
+      border-radius: 30px;
+      background: linear-gradient(135deg, var(--primary-light) 0%, var(--accent-soft) 100%);
+      color: var(--primary);
+      font-weight: 700;
+      text-decoration: none;
+      font-size: 0.9rem;
+      transition: all 0.4s var(--transition-bounce);
+      width: 100%;
+      justify-content: center;
+    }
+    .buy-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(239,150,156,0.4);
+    }
+
+    /* ─── SHIPPING INFO STRIP ─── */
+    .shipping-strip {
+      background: linear-gradient(135deg, var(--cream) 0%, var(--soft-bg) 100%);
+      padding: 50px 24px;
+      text-align: center;
+    }
+    .shipping-strip h3 {
+      font-family: 'Cinzel', serif;
+      font-size: 1.6rem;
+      color: var(--primary);
+      margin-bottom: 24px;
+    }
+    .shipping-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 24px;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    .shipping-card {
+      background: white;
+      padding: 28px 20px;
+      border-radius: 20px;
+      box-shadow: 0 8px 25px var(--shadow-soft);
+      transition: all 0.4s var(--transition-bounce);
+    }
+    .shipping-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 20px 40px var(--shadow-soft);
+    }
+    .shipping-icon {
+      font-size: 2.2rem;
+      margin-bottom: 10px;
+      display: inline-block;
+      animation: gentleBounce 3s ease-in-out infinite;
+    }
+    .shipping-card:nth-child(2) .shipping-icon { animation-delay: 0.5s; }
+    .shipping-card:nth-child(3) .shipping-icon { animation-delay: 1s; }
+    .shipping-card:nth-child(4) .shipping-icon { animation-delay: 1.5s; }
+    @keyframes gentleBounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+    }
+    .shipping-title {
+      font-family: 'Cinzel', serif;
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--primary);
+      margin-bottom: 6px;
+    }
+    .shipping-desc {
+      font-size: 0.9rem;
+      color: var(--primary-muted);
+    }
+
+    /* ─── FOOTER ─── */
+    .site-footer {
+      background: linear-gradient(135deg, var(--primary) 0%, #4a1f1e 100%);
+      text-align: center;
+      padding: 55px 24px 30px;
+      position: relative;
+      overflow: hidden;
+    }
+    .site-footer::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--accent), var(--primary-light), var(--accent));
+      background-size: 200% 100%;
+      animation: gradientShift 5s ease infinite;
+    }
+    @keyframes gradientShift {
+      0%, 100% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+    }
+    .footer-content {
+      position: relative;
+      z-index: 2;
+    }
+    .footer-logo-wrap {
+      position: relative;
+      display: inline-block;
+      margin-bottom: 20px;
+    }
+    .footer-logo {
+      width: 130px;
+      filter: brightness(0) invert(1);
+      transition: transform 0.4s var(--transition-bounce);
+    }
+    .footer-logo-wrap:hover .footer-logo { transform: scale(1.1) rotate(-3deg); }
+    .footer-logo-wrap::after {
+      content: '👻';
+      position: absolute;
+      top: -10px;
+      right: -25px;
+      font-size: 1.5rem;
+      animation: ghostFloat 3s ease-in-out infinite;
+    }
+    @keyframes ghostFloat {
+      0%, 100% { transform: translateY(0) scale(1); }
+      50% { transform: translateY(-10px) scale(1.1); }
+    }
+
+    .newsletter-row {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      margin: 25px 0;
+      flex-wrap: wrap;
+    }
+    .newsletter-row input {
+      padding: 14px 22px;
+      border-radius: 30px;
+      border: 2px solid rgba(255,218,217,0.3);
+      min-width: 280px;
+      font-size: 0.95rem;
+      background: rgba(255,255,255,0.08);
+      color: white;
+      backdrop-filter: blur(10px);
+      transition: all 0.3s var(--transition-smooth);
+      outline: none;
+    }
+    .newsletter-row input::placeholder { color: rgba(255,218,217,0.6); }
+    .newsletter-row input:focus {
+      border-color: var(--accent);
+      background: rgba(255,255,255,0.12);
+      box-shadow: 0 0 20px rgba(239,150,156,0.2);
+    }
+    .newsletter-row button {
+      background: linear-gradient(135deg, var(--primary-light) 0%, var(--accent-soft) 100%);
+      color: var(--primary);
+      border: none;
+      padding: 14px 32px;
+      border-radius: 30px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.4s var(--transition-bounce);
+      position: relative;
+      overflow: hidden;
+    }
+    .newsletter-row button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 30px rgba(239,150,156,0.4);
+    }
+    .newsletter-row button::after {
+      content: '✨';
+      margin-left: 6px;
+      display: inline-block;
+      animation: sparkle 2s ease-in-out infinite;
+    }
+
+    .footer-social {
+      display: flex;
+      justify-content: center;
+      gap: 18px;
+      margin: 25px 0;
+    }
+    .footer-social a {
+      color: var(--primary-light);
+      text-decoration: none;
+      font-size: 1.6rem;
+      width: 50px;
+      height: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      background: rgba(255,218,217,0.08);
+      border: 2px solid rgba(255,218,217,0.2);
+      transition: all 0.4s var(--transition-bounce);
+    }
+    .footer-social a:hover {
+      background: rgba(255,218,217,0.2);
+      border-color: var(--accent);
+      transform: translateY(-5px) scale(1.1);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    }
+    .footer-text {
+      color: rgba(255,218,217,0.7);
+      font-size: 0.9rem;
+      margin-top: 25px;
+      font-weight: 300;
+    }
+
+    /* ─── SCROLL REVEAL ─── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: all 0.8s var(--transition-smooth);
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .reveal-delay-1 { transition-delay: 0.15s; }
+    .reveal-delay-2 { transition-delay: 0.3s; }
+    .reveal-delay-3 { transition-delay: 0.45s; }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 768px) {
+      .nav-links {
+        display: none;
+        flex-direction: column;
+        width: 100%;
+        background: var(--dark-bg);
+        padding: 24px;
+        margin-top: 15px;
+        border-radius: 16px;
+        gap: 8px;
+        box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+      }
+      .nav-links.active { display: flex; animation: slideDown 0.4s var(--transition-smooth); }
+      @keyframes slideDown {
+        from { opacity: 0; transform: translateY(-20px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+      .hamburger { display: block; }
+      .shop-title { font-size: 2.4rem; }
+      .products-grid { grid-template-columns: 1fr 1fr; gap: 20px; }
+      .product-image-wrap img { height: 220px; }
+    }
+    @media (max-width: 480px) {
+      .shop-title { font-size: 1.9rem; }
+      .products-grid { grid-template-columns: 1fr; }
+      .shipping-grid { grid-template-columns: 1fr 1fr; }
+    }
+
+     /* ─── SCROLLING BANNER ─── */
+    .scrolling-banner {
+      background: linear-gradient(90deg, var(--primary-light) 0%, var(--accent-soft) 50%, var(--primary-light) 100%);
+      background-size: 200% 100%;
+      animation: gradientShift 8s ease infinite;
+      padding: 16px 0;
+      overflow: hidden;
+      white-space: nowrap;
+      font-family: 'Cinzel', 'Playfair Display', serif;
+      font-weight: 600;
+      font-size: 1.6rem;
+      letter-spacing: 1.5px;
+      color: var(--primary);
+      position: relative;
+      border-top: 2px solid var(--accent);
+      border-bottom: 2px solid var(--accent);
+    }
+    @keyframes gradientShift {
+      0%, 100% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+    }
+    .scrolling-banner::before,
+    .scrolling-banner::after {
+      content: '👻';
+      position: absolute;
+      font-size: 1.4rem;
+      animation: ghostFloat 3s ease-in-out infinite;
+      z-index: 2;
+    }
+    .scrolling-banner::before { left: 30px; animation-delay: 0s; }
+    .scrolling-banner::after { right: 30px; animation-delay: 1.5s; }
+    @keyframes ghostFloat {
+      0%, 100% { transform: translateY(0) scale(1); }
+      50% { transform: translateY(-10px) scale(1.1); }
+    }
+
+    .scrolling-text {
+      display: inline-block;
+      animation: scrollText 22s linear infinite;
+      padding-left: 100%;
+    }
+    @keyframes scrollText {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-100%); }
+    }
+
+  </style>
+
+</head>
+<body>
+  <!-- Ambient floating particles -->
+  <div class="ambient-particles" id="particles"></div>
+
+  <div id="app">
+    <!-- Header -->
+    <header class="site-header" id="siteHeader">
+      <div class="header-inner">
+        <div class="logo">
+          <img src="/images/MA_fullname_white copy 2.png" alt="Meg Alivien logo">
+        </div>
+        <div class="hamburger" id="hamburger">☰</div>
+        <nav class="nav-links" id="navLinks">
+          <a href="/index.html">Home</a>
+          <a href="/monster.html">Monster Boyfriends</a>
+          <a href="/spice.html">Spice Ratings</a>
+          <a href="/events.html">Events</a>
+          <a href="/newsletter.html">Newsletter</a>
+          <a href="/contact.html">Contact</a>
+          <a href="/magic.html">Of Magic and Men</a>
+          <a href="/shop.html" class="shop-btn active">Shop All</a>
+        </nav>
+      </div>
+    </header>
+
+    <!-- Shop Hero -->
+    <div class="shop-hero">
+      <div class="floating-decor">🦇</div>
+      <div class="floating-decor">👻</div>
+      <div class="floating-decor">🐺</div>
+      <div class="floating-decor">🛒</div>
+      <div class="shop-badge">
+        <span>✨</span> Official Web Store <span>✨</span>
+      </div>
+      <h1 class="shop-title">
+        <span class="accent-word">Shop</span> All Books
+      </h1>
+      <p class="shop-subtitle">
+        Signed paperbacks, exclusive editions, and cozy merch — all in one place!
+      </p>
+    </div>
+       <!-- Scrolling text banner -->
+    <div class="scrolling-banner">
+      <div class="scrolling-text">
+        🦇 Werewolves, Vampires, and Ghosts... oh my! ✦ Paranormal fantasy & romance by Meg Alivien ✦ Cozy reads with a little spice! 🍑
+      </div>
+    </div>
+
+    <!-- Products Grid -->
+    <div class="shop-section">
+      <div class="products-grid">
+        <div class="product-card reveal">
+          <span class="product-creature">🐺</span>
+          <div class="product-image-wrap">
+            <img src="images/Cover Reveal_1727202516.webp" alt="HOWL Paperback">
+          </div>
+          <div class="product-info">
+            <div class="product-name">HOWL</div>
+            <div class="product-type">Signed Paperback</div>
+            <div class="product-price">$16.99</div>
+            <a href="#" class="buy-btn">🛒 Add to Cart</a>
+          </div>
+        </div>
+
+        <div class="product-card reveal reveal-delay-1">
+          <span class="product-creature">🧛</span>
+          <div class="product-image-wrap">
+            <img src="images/All I Want For Christmas Is... (1)_1748643476.webp" alt="HUNT Paperback">
+          </div>
+          <div class="product-info">
+            <div class="product-name">HUNT</div>
+            <div class="product-type">Signed Paperback</div>
+            <div class="product-price">$16.99</div>
+            <a href="#" class="buy-btn">🛒 Add to Cart</a>
+          </div>
+        </div>
+
+        <div class="product-card reveal reveal-delay-2">
+          <span class="product-creature">👻</span>
+          <div class="product-image-wrap">
+            <img src="images/Meet Theo (2)_1773512426.webp" alt="HAUNT Paperback">
+          </div>
+          <div class="product-info">
+            <div class="product-name">HAUNT</div>
+            <div class="product-type">Signed Paperback</div>
+            <div class="product-price">$16.99</div>
+            <a href="#" class="buy-btn">🛒 Add to Cart</a>
+          </div>
+        </div>
+
+        <div class="product-card reveal reveal-delay-3">
+          <span class="product-creature">🔮</span>
+          <div class="product-image-wrap">
+            <img src="images/Author Wrapped (1)_1777079945.webp" alt="Of Magic and Men Paperback">
+          </div>
+          <div class="product-info">
+            <div class="product-name">Of Magic and Men</div>
+            <div class="product-type">Signed Paperback</div>
+            <div class="product-price">$16.99</div>
+            <a href="#" class="buy-btn">🛒 Add to Cart</a>
+          </div>
+        </div>
+
+        <div class="product-card reveal">
+          <span class="product-creature">📚</span>
+          <div class="product-image-wrap">
+            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300' viewBox='0 0 300 300'%3E%3Cdefs%3E%3ClinearGradient id='p5' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%23442a2a'/%3E%3Cstop offset='100%25' stop-color='%23221818'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='300' height='300' fill='url(%23p5)' rx='16'/%3E%3Ctext x='150' y='130' font-family='Cinzel, serif' font-size='24' fill='%23ffdad9' text-anchor='middle' font-weight='700'%3EMonster%3C/text%3E%3Ctext x='150' y='165' font-family='Cinzel, serif' font-size='24' fill='white' text-anchor='middle' font-weight='600'%3EBoyfriends%3C/text%3E%3Ctext x='150' y='200' font-family='DM Sans' font-size='14' fill='white' text-anchor='middle' opacity='0.7'%3EBox Set%3C/text%3E%3C/svg%3E" alt="Monster Boyfriends Box Set">
+          </div>
+          <div class="product-info">
+            <div class="product-name">Monster Boyfriends</div>
+            <div class="product-type">Box Set (Books 1-3)</div>
+            <div class="product-price">$45.00 <span class="original">$50.97</span></div>
+            <a href="#" class="buy-btn">🛒 Add to Cart</a>
+          </div>
+        </div>
+
+        <div class="product-card reveal reveal-delay-1">
+          <span class="product-creature">🍑</span>
+          <div class="product-image-wrap">
+            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300' viewBox='0 0 300 300'%3E%3Cdefs%3E%3ClinearGradient id='p6' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%23664346'/%3E%3Cstop offset='100%25' stop-color='%234a2a2d'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='300' height='300' fill='url(%23p6)' rx='16'/%3E%3Ctext x='150' y='130' font-family='Cinzel, serif' font-size='24' fill='%23ffdad9' text-anchor='middle' font-weight='700'%3EWitchy %26%3C/text%3E%3Ctext x='150' y='165' font-family='Cinzel, serif' font-size='24' fill='white' text-anchor='middle' font-weight='600'%3EShifty%3C/text%3E%3Ctext x='150' y='200' font-family='DM Sans' font-size='14' fill='white' text-anchor='middle' opacity='0.7'%3ESpecial Edition%3C/text%3E%3C/svg%3E" alt="Witchy & Shifty Edition">
+          </div>
+          <div class="product-info">
+            <div class="product-name">Witchy & Shifty Edition</div>
+            <div class="product-type">Limited Edition</div>
+            <div class="product-price">$24.99</div>
+            <a href="#" class="buy-btn">🛒 Add to Cart</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Shipping Info Strip -->
+    <div class="shipping-strip">
+      <h3 class="reveal">Shopping Perks</h3>
+      <div class="shipping-grid">
+        <div class="shipping-card reveal reveal-delay-1">
+          <div class="shipping-icon">📦</div>
+          <div class="shipping-title">Fast Shipping</div>
+          <div class="shipping-desc">Orders ship within 2-3 business days</div>
+        </div>
+        <div class="shipping-card reveal reveal-delay-2">
+          <div class="shipping-icon">✍️</div>
+          <div class="shipping-title">Signed Copies</div>
+          <div class="shipping-desc">Every paperback is hand-signed by Meg</div>
+        </div>
+        <div class="shipping-card reveal reveal-delay-3">
+          <div class="shipping-icon">🎁</div>
+          <div class="shipping-title">Free Stickers</div>
+          <div class="shipping-desc">Cute bookish stickers with every order</div>
+        </div>
+        <div class="shipping-card reveal">
+          <div class="shipping-icon">🔄</div>
+          <div class="shipping-title">Easy Returns</div>
+          <div class="shipping-desc">30-day hassle-free return policy</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="site-footer" id="newsletter">
+      <div class="footer-content">
+        <div class="footer-logo-wrap">
+          <img src="/images/duke.webp" alt="Duke Books" class="footer-logo">
+        </div>
+        <div class="newsletter-row">
+          <input type="email" placeholder="Your email address ✉️" aria-label="Email" id="newsletterEmail">
+          <button id="newsletterBtn">Subscribe</button>
+        </div>
+        <div class="footer-social">
+          <a href="#" aria-label="Facebook" title="Facebook">📘</a>
+          <a href="#" aria-label="Instagram" title="Instagram">📷</a>
+          <a href="#" aria-label="TikTok" title="TikTok">🎵</a>
+          <a href="#" aria-label="Goodreads" title="Goodreads">📚</a>
+        </div>
+        <div class="footer-text">
+          © 2026 Shop · Meg Alivien 🛒🦇👻
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <script>
+    (function() {
+      // Generate ambient particles
+      const particlesContainer = document.getElementById('particles');
+      const particleEmojis = ['🦇', '👻', '🐺', '🍓', '🍑', '🍊', '✨', '🌙', '🛒', '📚'];
+      for (let i = 0; i < 18; i++) {
+        const p = document.createElement('div');
+        p.className = 'particle';
+        p.textContent = particleEmojis[Math.floor(Math.random() * particleEmojis.length)];
+        p.style.left = Math.random() * 100 + '%';
+        p.style.top = Math.random() * 100 + '%';
+        p.style.fontSize = (Math.random() * 1.5 + 0.8) + 'rem';
+        p.style.setProperty('--duration', (Math.random() * 8 + 6) + 's');
+        p.style.setProperty('--delay', (Math.random() * 5) + 's');
+        particlesContainer.appendChild(p);
+      }
+
+      // Header scroll effect
+      const header = document.getElementById('siteHeader');
+      window.addEventListener('scroll', () => {
+        if (window.scrollY > 50) {
+          header.classList.add('scrolled');
+        } else {
+          header.classList.remove('scrolled');
+        }
+      });
+
+      // Hamburger menu
+      const hamburger = document.getElementById('hamburger');
+      const navLinks = document.getElementById('navLinks');
+      if (hamburger && navLinks) {
+        hamburger.addEventListener('click', function(e) {
+          e.stopPropagation();
+          navLinks.classList.toggle('active');
+          hamburger.textContent = navLinks.classList.contains('active') ? '✕' : '☰';
+        });
+      }
+      document.addEventListener('click', function(event) {
+        if (navLinks && navLinks.classList.contains('active')) {
+          if (!event.target.closest('.site-header')) {
+            navLinks.classList.remove('active');
+            hamburger.textContent = '☰';
+          }
+        }
+      });
+
+      // Scroll reveal animation
+      const revealElements = document.querySelectorAll('.reveal');
+      const revealObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+          }
+        });
+      }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+      revealElements.forEach(el => revealObserver.observe(el));
+
+      // Newsletter with cute toast
+      const newsletterBtn = document.getElementById('newsletterBtn');
+      const newsletterEmail = document.getElementById('newsletterEmail');
+      if (newsletterBtn) {
+        newsletterBtn.addEventListener('click', function(e) {
+          e.preventDefault();
+          if (newsletterEmail && newsletterEmail.value.trim() !== '') {
+            const toast = document.createElement('div');
+            toast.innerHTML = '🎉 Thank you for subscribing to Meg s newsletter! 💌';
+            toast.style.cssText = `
+              position: fixed;
+              bottom: 30px;
+              left: 50%;
+              transform: translateX(-50%) translateY(100px);
+              background: linear-gradient(135deg, #ffdad9, #f5b5ba);
+              color: #632c2a;
+              padding: 16px 32px;
+              border-radius: 30px;
+              font-weight: 600;
+              box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+              z-index: 9999;
+              transition: transform 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+              font-family: 'DM Sans', sans-serif;
+            `;
+            document.body.appendChild(toast);
+            setTimeout(() => toast.style.transform = 'translateX(-50%) translateY(0)', 100);
+            setTimeout(() => {
+              toast.style.transform = 'translateX(-50%) translateY(100px)';
+              setTimeout(() => toast.remove(), 500);
+            }, 3000);
+            newsletterEmail.value = '';
+          } else {
+            newsletterEmail.style.borderColor = '#ef969c';
+            newsletterEmail.style.animation = 'shake 0.5s ease';
+            setTimeout(() => {
+              newsletterEmail.style.borderColor = '';
+              newsletterEmail.style.animation = '';
+            }, 500);
+          }
+        });
+      }
+
+      // Add shake keyframe
+      const style = document.createElement('style');
+      style.textContent = `
+        @keyframes shake {
+          0%, 100% { transform: translateX(0); }
+          25% { transform: translateX(-8px); }
+          75% { transform: translateX(8px); }
+        }
+      `;
+      document.head.appendChild(style);
+
+      console.log('🛒 Shop All premium page ready! 🦇👻🐺');
+    })();
+  </script>
+</body>
+</html>

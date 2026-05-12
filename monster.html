@@ -1,0 +1,1117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+  <title>Monster Boyfriends | Author Meg Alivien</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Staatliches&family=Cinzel:wght@400;500;600;700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🐺</text></svg>">
+  <style>
+    @font-face {
+  font-family: 'Recoleta';
+  src: url('/fonts/Recoleta\ Alt\ SemiBold.otf') format('opentype');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --primary: #632c2a;
+      --primary-light: #ffdad9;
+      --primary-muted: #664346;
+      --accent: #ef969c;
+      --accent-soft: #f5b5ba;
+      --dark-bg: #1a2d2b;
+      --darker-bg: #0f1a19;
+      --white: #ffffff;
+      --black: #000000;
+      --soft-bg: #f9f5f3;
+      --cream: #fdf6f0;
+      --warm-white: #fff9f5;
+      --gold: #c9a96e;
+      --shadow-deep: rgba(26, 45, 43, 0.4);
+      --shadow-soft: rgba(99, 44, 42, 0.15);
+      --transition-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+      --transition-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Recoleta', serif;
+      background-color: var(--primary);
+      color: #f0f0f0;
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    /* ─── AMBIENT PARTICLES ─── */
+    .ambient-particles {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+    .particle {
+      position: absolute;
+      opacity: 0.1;
+      animation: floatParticle var(--duration) var(--delay) ease-in-out infinite;
+    }
+    @keyframes floatParticle {
+      0%, 100% { transform: translateY(0) rotate(0deg); opacity: 0.06; }
+      50% { transform: translateY(-50px) rotate(20deg); opacity: 0.14; }
+    }
+
+    /* ─── HEADER ─── */
+    .site-header {
+      background: linear-gradient(135deg, var(--dark-bg) 0%, var(--darker-bg) 100%);
+      padding: 18px 24px;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(255,218,217,0.1);
+      transition: all 0.4s var(--transition-smooth);
+    }
+    .site-header.scrolled {
+      padding: 12px 24px;
+      box-shadow: 0 4px 30px rgba(0,0,0,0.3);
+    }
+
+    .header-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .logo {
+      position: relative;
+      transition: transform 0.3s var(--transition-bounce);
+    }
+    .logo:hover { transform: scale(1.05) rotate(-2deg); }
+    .logo img {
+      height: 55px; /* same rakho */
+  width: auto;
+  display: block;
+  transform: scale(2.4); /* yahan size control karo */
+  transform-origin: left center; /* left se grow kare */
+}
+    .logo::after {
+      content: '🦇';
+      position: absolute;
+      top: -8px;
+      right: -20px;
+      font-size: 1.2rem;
+      animation: batFlutter 2s ease-in-out infinite;
+      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+    }
+    @keyframes batFlutter {
+      0%, 100% { transform: translateY(0) rotate(-5deg); }
+      25% { transform: translateY(-6px) rotate(5deg); }
+      50% { transform: translateY(-3px) rotate(-3deg); }
+      75% { transform: translateY(-8px) rotate(3deg); }
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .nav-links a {
+      color: var(--primary-light);
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 0.9rem;
+      letter-spacing: 0.3px;
+      padding: 8px 14px;
+      border-radius: 20px;
+      transition: all 0.3s var(--transition-smooth);
+      position: relative;
+      overflow: hidden;
+    }
+    .nav-links a::before {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 50%;
+      width: 0; height: 2px;
+      background: var(--accent);
+      transition: all 0.3s var(--transition-smooth);
+      transform: translateX(-50%);
+      border-radius: 2px;
+    }
+    .nav-links a:hover {
+      color: var(--accent);
+      background: rgba(255,218,217,0.08);
+    }
+    .nav-links a:hover::before { width: 60%; }
+    .nav-links a.active {
+      color: var(--accent);
+      font-weight: 700;
+      background: rgba(239,150,156,0.1);
+    }
+
+    .shop-btn {
+      background: linear-gradient(135deg, var(--primary-light) 0%, var(--accent-soft) 100%);
+      color: var(--primary) !important;
+      padding: 10px 24px !important;
+      border-radius: 30px;
+      font-weight: 700 !important;
+      margin-left: 8px;
+      box-shadow: 0 4px 15px rgba(239,150,156,0.3);
+      transition: all 0.3s var(--transition-bounce) !important;
+    }
+    .shop-btn:hover {
+      transform: translateY(-2px) scale(1.05);
+      box-shadow: 0 8px 25px rgba(239,150,156,0.5);
+    }
+
+    .hamburger {
+      display: none;
+      font-size: 26px;
+      color: var(--primary-light);
+      cursor: pointer;
+      padding: 8px;
+      border-radius: 8px;
+      transition: all 0.3s;
+    }
+    .hamburger:hover { background: rgba(255,218,217,0.1); }
+
+    /* ─── BANNER ─── */
+    .banner-section {
+      background: linear-gradient(135deg, var(--dark-bg) 0%, var(--darker-bg) 50%, var(--dark-bg) 100%);
+      text-align: center;
+      padding: 60px 24px 50px;
+      position: relative;
+      overflow: hidden;
+      height: 76vh;
+    }
+    .banner-section::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: 
+        radial-gradient(circle at 30% 40%, rgba(239,150,156,0.08) 0%, transparent 50%),
+        radial-gradient(circle at 70% 60%, rgba(255,218,217,0.05) 0%, transparent 50%);
+      pointer-events: none;
+    }
+    .floating-decor {
+      position: absolute;
+      font-size: 2rem;
+      opacity: 0.12;
+      animation: floatDecor 6s ease-in-out infinite;
+      pointer-events: none;
+      z-index: 1;
+    }
+    .floating-decor:nth-child(1) { top: 15%; left: 10%; animation-delay: 0s; }
+    .floating-decor:nth-child(2) { top: 25%; right: 12%; animation-delay: 1.5s; font-size: 1.5rem; }
+    .floating-decor:nth-child(3) { bottom: 20%; left: 15%; animation-delay: 3s; font-size: 1.8rem; }
+    .floating-decor:nth-child(4) { bottom: 30%; right: 10%; animation-delay: 4.5s; font-size: 2.2rem; }
+    @keyframes floatDecor {
+      0%, 100% { transform: translateY(0) rotate(0deg); }
+      33% { transform: translateY(-15px) rotate(5deg); }
+      66% { transform: translateY(-8px) rotate(-3deg); }
+    }
+
+    .banner-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255,218,217,0.12);
+      border: 1px solid rgba(255,218,217,0.25);
+      padding: 8px 20px;
+      border-radius: 30px;
+      font-size: 0.85rem;
+      color: var(--primary-light);
+      margin-bottom: 20px;
+      backdrop-filter: blur(10px);
+      position: relative;
+      z-index: 2;
+      animation: fadeInUp 1s ease-out 0.2s both;
+    }
+    .banner-badge span { animation: sparkle 2s ease-in-out infinite; }
+    @keyframes sparkle {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.6; transform: scale(1.2); }
+    }
+
+    .banner-title {
+      font-family: 'Cinzel', 'Playfair Display', serif;
+      font-size: 3rem;
+      font-weight: 700;
+      color: var(--primary-light);
+      margin-bottom: 12px;
+      line-height: 1.2;
+      text-shadow: 0 4px 20px rgba(0,0,0,0.3);
+      position: relative;
+      z-index: 2;
+      animation: fadeInUp 1s ease-out 0.4s both;
+    }
+    .banner-title .accent-word {
+      color: var(--accent);
+      position: relative;
+      display: inline-block;
+    }
+    .banner-title .accent-word::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: 100%;
+      height: 3px;
+      background: linear-gradient(90deg, transparent, var(--accent), transparent);
+      border-radius: 2px;
+    }
+    .banner-subtitle {
+      font-size: 1.15rem;
+      color: rgba(255,218,217,0.75);
+      font-weight: 400;
+      max-width: 600px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 2;
+      animation: fadeInUp 1s ease-out 0.6s both;
+    }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ─── BOOK ROWS ─── */
+    .book-section {
+      position: relative;
+      z-index: 2;
+    }
+    .book-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      background: linear-gradient(135deg, var(--primary) 0%, #4a1f1e 50%, var(--primary) 100%);
+      padding: 70px 30px;
+      gap: 50px;
+      border-bottom: 1px solid rgba(255,218,217,0.15);
+      position: relative;
+      overflow: hidden;
+    }
+    .book-row::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 60 60'%3E%3Cpath d='M30 5 L35 20 L50 20 L38 30 L42 45 L30 35 L18 45 L22 30 L10 20 L25 20 Z' fill='none' stroke='%23ffdad9' stroke-width='0.5' opacity='0.03'/%3E%3C/svg%3E");
+      pointer-events: none;
+    }
+    .book-row:nth-child(even) {
+      background: linear-gradient(135deg, #4a1f1e 0%, var(--primary) 50%, #4a1f1e 100%);
+    }
+
+    .book-image {
+      flex: 1 1 300px;
+      text-align: center;
+      position: relative;
+    }
+    .book-showcase {
+      position: relative;
+      display: inline-block;
+      transition: transform 0.5s var(--transition-smooth);
+    }
+    .book-showcase:hover { transform: translateY(-10px) rotateY(5deg); }
+    .book-showcase img {
+      max-width: 350px;
+      border-radius: 20px;
+      
+      transition: all 0.5s var(--transition-smooth);
+    }
+    .book-showcase:hover img {
+      box-shadow: 
+        0 35px 60px rgba(0,0,0,0.6),
+        0 0 0 4px rgba(255,218,217,0.15),
+        0 0 60px rgba(239,150,156,0.1);
+    }
+
+    /* Creature accents per book */
+    .book-showcase.howl::before {
+      content: '🐺';
+      position: absolute;
+      top: -20px;
+      right: -15px;
+      font-size: 2.5rem;
+      animation: wolfHowl 3s ease-in-out infinite;
+      filter: drop-shadow(0 4px 8px rgba(0,0,0,0.4));
+      z-index: 3;
+    }
+    .book-showcase.howl::after {
+      content: '🍓';
+      position: absolute;
+      bottom: -15px;
+      left: -10px;
+      font-size: 2rem;
+      animation: fruitBounce 3s ease-in-out infinite 0.5s;
+      filter: drop-shadow(0 4px 8px rgba(0,0,0,0.4));
+      z-index: 3;
+    }
+    .book-showcase.hunt::before {
+      content: '🧛';
+      position: absolute;
+      top: -20px;
+      right: -15px;
+      font-size: 2.5rem;
+      animation: vampireFloat 3s ease-in-out infinite;
+      filter: drop-shadow(0 4px 8px rgba(0,0,0,0.4));
+      z-index: 3;
+    }
+    .book-showcase.hunt::after {
+      content: '🍑';
+      position: absolute;
+      bottom: -15px;
+      left: -10px;
+      font-size: 2rem;
+      animation: fruitBounce 3s ease-in-out infinite 1s;
+      filter: drop-shadow(0 4px 8px rgba(0,0,0,0.4));
+      z-index: 3;
+    }
+    .book-showcase.haunt::before {
+      content: '👻';
+      position: absolute;
+      top: -20px;
+      right: -15px;
+      font-size: 2.5rem;
+      animation: ghostFloat 3s ease-in-out infinite;
+      filter: drop-shadow(0 4px 8px rgba(0,0,0,0.4));
+      z-index: 3;
+    }
+    .book-showcase.haunt::after {
+      content: '🍊';
+      position: absolute;
+      bottom: -15px;
+      left: -10px;
+      font-size: 2rem;
+      animation: fruitBounce 3s ease-in-out infinite 1.5s;
+      filter: drop-shadow(0 4px 8px rgba(0,0,0,0.4));
+      z-index: 3;
+    }
+
+    @keyframes wolfHowl {
+      0%, 100% { transform: translateY(0) rotate(0deg); }
+      25% { transform: translateY(-10px) rotate(-8deg); }
+      50% { transform: translateY(-5px) rotate(5deg); }
+      75% { transform: translateY(-12px) rotate(-3deg); }
+    }
+    @keyframes vampireFloat {
+      0%, 100% { transform: translateY(0) scale(1); }
+      50% { transform: translateY(-15px) scale(1.1); }
+    }
+    @keyframes ghostFloat {
+      0%, 100% { transform: translateY(0) scale(1) rotate(0deg); }
+      33% { transform: translateY(-12px) scale(1.05) rotate(3deg); }
+      66% { transform: translateY(-6px) scale(0.95) rotate(-2deg); }
+    }
+    @keyframes fruitBounce {
+      0%, 100% { transform: translateY(0) rotate(0deg); }
+      25% { transform: translateY(-12px) rotate(10deg); }
+      50% { transform: translateY(-5px) rotate(-5deg); }
+      75% { transform: translateY(-15px) rotate(8deg); }
+    }
+
+    .book-details {
+      flex: 1 1 400px;
+      color: white;
+      position: relative;
+      z-index: 2;
+    }
+    .book-details h2 {
+      font-family: 'Cinzel', 'Playfair Display', serif;
+      font-size: 2.4rem;
+      font-weight: 700;
+      margin-bottom: 14px;
+      line-height: 1.2;
+    }
+    .spice-rating {
+      font-family: 'Staatliches', cursive;
+      font-size: 1.4rem;
+      color: var(--accent);
+      margin-bottom: 12px;
+      letter-spacing: 1.5px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .spice-rating .chili {
+      display: inline-block;
+      animation: chiliWiggle 2s ease-in-out infinite;
+    }
+    @keyframes chiliWiggle {
+      0%, 100% { transform: rotate(0deg); }
+      25% { transform: rotate(-8deg); }
+      75% { transform: rotate(8deg); }
+    }
+    .availability {
+      font-weight: 500;
+      margin-bottom: 24px;
+      font-size: 1rem;
+      color: rgba(255,255,255,0.85);
+    }
+    .availability strong { color: var(--primary-light); }
+
+    .button-group {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 14px 30px;
+      border-radius: 40px;
+      font-weight: 700;
+      text-decoration: none;
+      font-size: 0.9rem;
+      transition: all 0.4s var(--transition-bounce);
+      position: relative;
+      overflow: hidden;
+      border: none;
+      cursor: pointer;
+    }
+    .btn-light {
+      background: linear-gradient(135deg, var(--primary-light) 0%, var(--accent-soft) 100%);
+      color: var(--primary);
+      box-shadow: 0 4px 20px rgba(239,150,156,0.3);
+    }
+    .btn-light:hover {
+      transform: translateY(-3px) scale(1.03);
+      box-shadow: 0 10px 30px rgba(239,150,156,0.5);
+    }
+    .btn-outline {
+      border: 2px solid rgba(255,218,217,0.5);
+      color: var(--primary-light);
+      background: transparent;
+    }
+    .btn-outline:hover {
+      background: rgba(255,218,217,0.15);
+      border-color: var(--primary-light);
+      transform: translateY(-3px);
+    }
+
+    /* ─── TRIGGER WARNING ─── */
+    .trigger-warning {
+      background: linear-gradient(145deg, #4a2525 0%, #3a1e1e 100%);
+      padding: 40px 30px;
+      margin: 0;
+      border-left: 5px solid var(--accent);
+      color: var(--primary-light);
+      position: relative;
+      overflow: hidden;
+    }
+    .trigger-warning::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='30' height='30' viewBox='0 0 30 30'%3E%3Ctext x='15' y='22' font-size='14' text-anchor='middle' opacity='0.03'%3E⚠️%3C/text%3E%3C/svg%3E");
+      pointer-events: none;
+    }
+    .trigger-title {
+      font-family: 'Staatliches', cursive;
+      font-size: 1.8rem;
+      letter-spacing: 2px;
+      margin-bottom: 14px;
+      color: var(--accent);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .trigger-title .warning-icon {
+      display: inline-block;
+      animation: warningPulse 2s ease-in-out infinite;
+    }
+    @keyframes warningPulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.15); }
+    }
+    .trigger-text {
+      font-size: 0.95rem;
+      line-height: 1.8;
+      font-weight: 400;
+      max-width: 800px;
+      color: rgba(255,218,217,0.85);
+    }
+
+    .section-spacer {
+      height: 4px;
+      background: linear-gradient(90deg, var(--accent), var(--primary-light), var(--accent));
+      background-size: 200% 100%;
+      animation: gradientShift 4s ease infinite;
+    }
+    @keyframes gradientShift {
+      0%, 100% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+    }
+
+    /* ─── SERIES INFO STRIP ─── */
+    .series-info {
+      background: linear-gradient(135deg, var(--cream) 0%, var(--soft-bg) 100%);
+      padding: 50px 24px;
+      text-align: center;
+    }
+    .series-info h3 {
+      font-family: 'Cinzel', serif;
+      font-size: 1.6rem;
+      color: var(--primary);
+      margin-bottom: 16px;
+    }
+    .series-info p {
+      max-width: 700px;
+      margin: 0 auto;
+      color: var(--primary-muted);
+      font-size: 1rem;
+      line-height: 1.7;
+    }
+    .series-creatures {
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      margin-top: 24px;
+      flex-wrap: wrap;
+    }
+    .creature-badge {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: white;
+      padding: 12px 24px;
+      border-radius: 30px;
+      box-shadow: 0 4px 15px var(--shadow-soft);
+      font-weight: 600;
+      color: var(--primary);
+      transition: all 0.3s var(--transition-bounce);
+    }
+    .creature-badge:hover {
+      transform: translateY(-5px) scale(1.05);
+      box-shadow: 0 10px 25px var(--shadow-soft);
+    }
+    .creature-badge span { font-size: 1.4rem; }
+
+    /* ─── FOOTER ─── */
+    .site-footer {
+      background: linear-gradient(135deg, var(--primary) 0%, #4a1f1e 100%);
+      text-align: center;
+      padding: 55px 24px 30px;
+      position: relative;
+      overflow: hidden;
+    }
+    .site-footer::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--accent), var(--primary-light), var(--accent));
+      background-size: 200% 100%;
+      animation: gradientShift 5s ease infinite;
+    }
+    .footer-content {
+      position: relative;
+      z-index: 2;
+    }
+    .footer-logo-wrap {
+      position: relative;
+      display: inline-block;
+      margin-bottom: 20px;
+    }
+    .footer-logo {
+      width: 130px;
+      filter: brightness(0) invert(1);
+      transition: transform 0.4s var(--transition-bounce);
+    }
+    .footer-logo-wrap:hover .footer-logo { transform: scale(1.1) rotate(-3deg); }
+    .footer-logo-wrap::after {
+      content: '👻';
+      position: absolute;
+      top: -10px;
+      right: -25px;
+      font-size: 1.5rem;
+      animation: ghostFloat 3s ease-in-out infinite;
+    }
+
+    .newsletter-row {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      margin: 25px 0;
+      flex-wrap: wrap;
+    }
+    .newsletter-row input {
+      padding: 14px 22px;
+      border-radius: 30px;
+      border: 2px solid rgba(255,218,217,0.3);
+      min-width: 280px;
+      font-size: 0.95rem;
+      background: rgba(255,255,255,0.08);
+      color: white;
+      backdrop-filter: blur(10px);
+      transition: all 0.3s var(--transition-smooth);
+      outline: none;
+    }
+    .newsletter-row input::placeholder { color: rgba(255,218,217,0.6); }
+    .newsletter-row input:focus {
+      border-color: var(--accent);
+      background: rgba(255,255,255,0.12);
+      box-shadow: 0 0 20px rgba(239,150,156,0.2);
+    }
+    .newsletter-row button {
+      background: linear-gradient(135deg, var(--primary-light) 0%, var(--accent-soft) 100%);
+      color: var(--primary);
+      border: none;
+      padding: 14px 32px;
+      border-radius: 30px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.4s var(--transition-bounce);
+      position: relative;
+      overflow: hidden;
+    }
+    .newsletter-row button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 30px rgba(239,150,156,0.4);
+    }
+    .newsletter-row button::after {
+      content: '✨';
+      margin-left: 6px;
+      display: inline-block;
+      animation: sparkle 2s ease-in-out infinite;
+    }
+
+    .footer-social {
+      display: flex;
+      justify-content: center;
+      gap: 18px;
+      margin: 25px 0;
+    }
+    .footer-social a {
+      color: var(--primary-light);
+      text-decoration: none;
+      font-size: 1.6rem;
+      width: 50px;
+      height: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      background: rgba(255,218,217,0.08);
+      border: 2px solid rgba(255,218,217,0.2);
+      transition: all 0.4s var(--transition-bounce);
+    }
+    .footer-social a:hover {
+      background: rgba(255,218,217,0.2);
+      border-color: var(--accent);
+      transform: translateY(-5px) scale(1.1);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    }
+    .footer-text {
+      color: rgba(255,218,217,0.7);
+      font-size: 0.9rem;
+      margin-top: 25px;
+      font-weight: 300;
+    }
+
+    /* ─── SCROLL REVEAL ─── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: all 0.8s var(--transition-smooth);
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .reveal-delay-1 { transition-delay: 0.15s; }
+    .reveal-delay-2 { transition-delay: 0.3s; }
+    .reveal-delay-3 { transition-delay: 0.45s; }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 768px) {
+      .nav-links {
+        display: none;
+        flex-direction: column;
+        width: 100%;
+        background: var(--dark-bg);
+        padding: 24px;
+        margin-top: 15px;
+        border-radius: 16px;
+        gap: 8px;
+        box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+      }
+      .nav-links.active { display: flex; animation: slideDown 0.4s var(--transition-smooth); }
+      @keyframes slideDown {
+        from { opacity: 0; transform: translateY(-20px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+      .hamburger { display: block; }
+      .banner-title { font-size: 2.2rem; }
+      .book-row { flex-direction: column; text-align: center; padding: 50px 20px; }
+      .book-details h2 { font-size: 1.9rem; }
+      .button-group { justify-content: center; }
+      .creature-badge { padding: 10px 18px; font-size: 0.9rem; }
+    }
+    @media (max-width: 480px) {
+      .banner-title { font-size: 1.7rem; }
+      .book-details h2 { font-size: 1.6rem; }
+      .spice-rating { font-size: 1.1rem; }
+    }
+
+
+      /* ─── SCROLLING BANNER ─── */
+    .scrolling-banner {
+      background: linear-gradient(90deg, var(--primary-light) 0%, var(--accent-soft) 50%, var(--primary-light) 100%);
+      background-size: 200% 100%;
+      animation: gradientShift 8s ease infinite;
+      padding: 16px 0;
+      overflow: hidden;
+      white-space: nowrap;
+      font-family: 'Cinzel', 'Playfair Display', serif;
+      font-weight: 600;
+      font-size: 1.6rem;
+      letter-spacing: 1.5px;
+      color: var(--primary);
+      position: relative;
+      border-top: 2px solid var(--accent);
+      border-bottom: 2px solid var(--accent);
+    }
+    @keyframes gradientShift {
+      0%, 100% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+    }
+    .scrolling-banner::before,
+    .scrolling-banner::after {
+      content: '👻';
+      position: absolute;
+      font-size: 1.4rem;
+      animation: ghostFloat 3s ease-in-out infinite;
+      z-index: 2;
+    }
+    .scrolling-banner::before { left: 30px; animation-delay: 0s; }
+    .scrolling-banner::after { right: 30px; animation-delay: 1.5s; }
+    @keyframes ghostFloat {
+      0%, 100% { transform: translateY(0) scale(1); }
+      50% { transform: translateY(-10px) scale(1.1); }
+    }
+
+    .scrolling-text {
+      display: inline-block;
+      animation: scrollText 22s linear infinite;
+      padding-left: 100%;
+    }
+    @keyframes scrollText {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-100%); }
+    }
+
+  </style>
+
+</head>
+<body>
+  <!-- Ambient floating particles -->
+  <div class="ambient-particles" id="particles"></div>
+
+  <div id="app">
+    <!-- Header -->
+    <header class="site-header" id="siteHeader">
+      <div class="header-inner">
+        <div class="logo">
+          <img src="/images/MA_fullname_white copy 2.png" alt="Meg Alivien logo">
+        </div>
+        <div class="hamburger" id="hamburger">☰</div>
+        <nav class="nav-links" id="navLinks">
+          <a href="/index.html">Home</a>
+          <a href="/monster.html" class="active">Monster Boyfriends</a>
+          <a href="/spice.html">Spice Ratings</a>
+          <a href="/events.html">Events</a>
+          <a href="/newsletter.html">Newsletter</a>
+          <a href="/contact.html">Contact</a>
+          <a href="/magic.html">Of Magic and Men</a>
+          <a href="/shop.html" class="shop-btn">Shop All</a>
+        </nav>
+      </div>
+    </header>
+
+    <!-- Banner -->
+    <div class="banner-section">
+      <div class="floating-decor">🦇</div>
+      <div class="floating-decor">👻</div>
+      <div class="floating-decor">🐺</div>
+      <div class="floating-decor">🍓</div>
+      <div class="banner-badge">
+        <span>✨</span> Interconnected Standalone Series <span>✨</span>
+      </div>
+      <h1 class="banner-title">
+        <span class="accent-word">Monster</span> Boyfriends
+      </h1>
+      <p class="banner-subtitle">
+        Halloweentown meets Gilmore Girls — cozy paranormal romance with heart, heat, and happily ever afters
+      </p>
+    </div>
+       <!-- Scrolling text banner -->
+    <div class="scrolling-banner">
+      <div class="scrolling-text">
+        🦇 Werewolves, Vampires, and Ghosts... oh my! ✦ Paranormal fantasy & romance by Meg Alivien ✦ Cozy reads with a little spice! 🍑
+      </div>
+    </div>
+
+    <div class="book-section">
+      <!-- HOWL -->
+      <div class="book-row" id="howl">
+        <div class="book-image reveal">
+          <div class="book-showcase howl">
+            <img src="images/Cover Reveal_1727202516.webp" alt="HOWL book cover">
+          </div>
+        </div>
+        <div class="book-details">
+          <h2 class="reveal">HOWL: A Small Town Werewolf Romance</h2>
+          <div class="spice-rating reveal reveal-delay-1">
+            <span class="chili">🌶️</span> Spice Rating: 2 out of 5 chili peppers
+          </div>
+          <div class="availability reveal reveal-delay-1">
+            <strong>Available in:</strong> Paperback, Kindle Unlimited, and Audiobook
+          </div>
+          <div class="button-group reveal reveal-delay-2">
+            <a href="#" class="btn btn-light">🛒 Purchase on Amazon</a>
+            <a href="#" class="btn btn-outline">📖 Barnes & Noble</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="trigger-warning">
+        <div class="trigger-title">
+          <span class="warning-icon">⚠️</span> Trigger Warnings
+        </div>
+        <div class="trigger-text">
+          This novel contains explicit sexual content, detailed depictions of anxiety / panic attacks, physical & mental abuse by an ex-boyfriend, a dark humor joke about self-harm, mentions of blood, and a tumultuous mother/daughter relationship.
+        </div>
+      </div>
+
+      <div class="section-spacer"></div>
+
+      <!-- HUNT -->
+      <div class="book-row" id="hunt">
+        <div class="book-image reveal">
+          <div class="book-showcase hunt">
+            <img src="images/All I Want For Christmas Is... (1)_1748643476.webp" alt="HUNT book cover">
+          </div>
+        </div>
+        <div class="book-details">
+          <h2 class="reveal">HUNT: A Small Town Vampire Romance</h2>
+          <div class="spice-rating reveal reveal-delay-1">
+            <span class="chili">🌶️</span> Spice Rating: 3 out of 5 chili peppers
+          </div>
+          <div class="availability reveal reveal-delay-1">
+            <strong>Available in:</strong> Paperback, Kindle Unlimited, and Audiobook
+          </div>
+          <div class="button-group reveal reveal-delay-2">
+            <a href="#" class="btn btn-light">🛒 Purchase on Amazon</a>
+            <a href="#" class="btn btn-outline">📖 Barnes & Noble</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="trigger-warning">
+        <div class="trigger-title">
+          <span class="warning-icon">⚠️</span> Trigger Warnings
+        </div>
+        <div class="trigger-text">
+          This book contains explicit sexual content including mild blood play and mutual / consensual biting, along with depictions of intoxication, detailed descriptions of loneliness, and a character who has an unhealthy relationship with expressing emotions.
+        </div>
+      </div>
+
+      <div class="section-spacer"></div>
+
+      <!-- HAUNT -->
+      <div class="book-row" id="haunt">
+        <div class="book-image reveal">
+          <div class="book-showcase haunt">
+            <img src="images/Meet Theo (2)_1773512426.webp" alt="HAUNT book cover">
+          </div>
+        </div>
+        <div class="book-details">
+          <h2 class="reveal">HAUNT: A Small Town Ghost Romance</h2>
+          <div class="spice-rating reveal reveal-delay-1">
+            <span class="chili">🌶️</span> Spice Rating: 1.5 out of 5 chili peppers
+          </div>
+          <div class="availability reveal reveal-delay-1">
+            <strong>Available in:</strong> Paperback, Kindle Unlimited, and Audiobook
+          </div>
+          <div class="button-group reveal reveal-delay-2">
+            <a href="#" class="btn btn-light">🛒 Purchase on Amazon</a>
+            <a href="#" class="btn btn-outline">📖 Barnes & Noble</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="trigger-warning">
+        <div class="trigger-title">
+          <span class="warning-icon">⚠️</span> Trigger Warnings
+        </div>
+        <div class="trigger-text">
+          This book contains a detailed first person POV description of a panic attack, mentions of death, internalized trauma from grief and deep remorse, a mention of witch burnings, agoraphobia, and explicit sex scenes in chapters 36 & 37.
+        </div>
+      </div>
+    </div>
+
+    <!-- Series Info Strip -->
+    <div class="series-info">
+      <h3 class="reveal">Meet Your Monster Boyfriends</h3>
+      <p class="reveal reveal-delay-1">
+        Each book in the Monster Boyfriends series is a standalone romance set in the paranormal small town of Shadow Hills. Read them in any order — though we recommend starting with HOWL!
+      </p>
+      <div class="series-creatures reveal reveal-delay-2">
+        <div class="creature-badge"><span>🐺</span> Werewolf</div>
+        <div class="creature-badge"><span>🧛</span> Vampire</div>
+        <div class="creature-badge"><span>👻</span> Ghost</div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="site-footer" id="newsletter">
+      <div class="footer-content">
+       <div class="footer-logo-wrap">
+          <img src="/images/duke.webp" alt="Duke Books" class="footer-logo">
+        </div>
+        <div class="newsletter-row">
+          <input type="email" placeholder="Your email address ✉️" aria-label="Email" id="newsletterEmail">
+          <button id="newsletterBtn">Subscribe</button>
+        </div>
+        <div class="footer-social">
+          <a href="#" aria-label="Facebook" title="Facebook">📘</a>
+          <a href="#" aria-label="Instagram" title="Instagram">📷</a>
+          <a href="#" aria-label="TikTok" title="TikTok">🎵</a>
+          <a href="#" aria-label="Goodreads" title="Goodreads">📚</a>
+        </div>
+        <div class="footer-text">
+          © 2026 Monster Boyfriends Series · Meg Alivien 🐺🧛👻
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <script>
+    (function() {
+      // Generate ambient particles
+      const particlesContainer = document.getElementById('particles');
+      const particleEmojis = ['🦇', '👻', '🐺', '🍓', '🍑', '🍊', '✨', '🌙', '🧛'];
+      for (let i = 0; i < 18; i++) {
+        const p = document.createElement('div');
+        p.className = 'particle';
+        p.textContent = particleEmojis[Math.floor(Math.random() * particleEmojis.length)];
+        p.style.left = Math.random() * 100 + '%';
+        p.style.top = Math.random() * 100 + '%';
+        p.style.fontSize = (Math.random() * 1.5 + 0.8) + 'rem';
+        p.style.setProperty('--duration', (Math.random() * 8 + 6) + 's');
+        p.style.setProperty('--delay', (Math.random() * 5) + 's');
+        particlesContainer.appendChild(p);
+      }
+
+      // Header scroll effect
+      const header = document.getElementById('siteHeader');
+      window.addEventListener('scroll', () => {
+        if (window.scrollY > 50) {
+          header.classList.add('scrolled');
+        } else {
+          header.classList.remove('scrolled');
+        }
+      });
+
+      // Hamburger menu
+      const hamburger = document.getElementById('hamburger');
+      const navLinks = document.getElementById('navLinks');
+      if (hamburger && navLinks) {
+        hamburger.addEventListener('click', function(e) {
+          e.stopPropagation();
+          navLinks.classList.toggle('active');
+          hamburger.textContent = navLinks.classList.contains('active') ? '✕' : '☰';
+        });
+      }
+      document.addEventListener('click', function(event) {
+        if (navLinks && navLinks.classList.contains('active')) {
+          if (!event.target.closest('.site-header')) {
+            navLinks.classList.remove('active');
+            hamburger.textContent = '☰';
+          }
+        }
+      });
+
+      // Scroll reveal animation
+      const revealElements = document.querySelectorAll('.reveal');
+      const revealObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+          }
+        });
+      }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+      revealElements.forEach(el => revealObserver.observe(el));
+
+      // Newsletter with cute toast
+      const newsletterBtn = document.getElementById('newsletterBtn');
+      const newsletterEmail = document.getElementById('newsletterEmail');
+      if (newsletterBtn) {
+        newsletterBtn.addEventListener('click', function(e) {
+          e.preventDefault();
+          if (newsletterEmail && newsletterEmail.value.trim() !== '') {
+            const toast = document.createElement('div');
+            toast.innerHTML = '🎉 Thank you for subscribing to Meg s newsletter! 💌';
+            toast.style.cssText = `
+              position: fixed;
+              bottom: 30px;
+              left: 50%;
+              transform: translateX(-50%) translateY(100px);
+              background: linear-gradient(135deg, #ffdad9, #f5b5ba);
+              color: #632c2a;
+              padding: 16px 32px;
+              border-radius: 30px;
+              font-weight: 600;
+              box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+              z-index: 9999;
+              transition: transform 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+              font-family: 'DM Sans', sans-serif;
+            `;
+            document.body.appendChild(toast);
+            setTimeout(() => toast.style.transform = 'translateX(-50%) translateY(0)', 100);
+            setTimeout(() => {
+              toast.style.transform = 'translateX(-50%) translateY(100px)';
+              setTimeout(() => toast.remove(), 500);
+            }, 3000);
+            newsletterEmail.value = '';
+          } else {
+            newsletterEmail.style.borderColor = '#ef969c';
+            newsletterEmail.style.animation = 'shake 0.5s ease';
+            setTimeout(() => {
+              newsletterEmail.style.borderColor = '';
+              newsletterEmail.style.animation = '';
+            }, 500);
+          }
+        });
+      }
+
+      // Add shake keyframe
+      const style = document.createElement('style');
+      style.textContent = `
+        @keyframes shake {
+          0%, 100% { transform: translateX(0); }
+          25% { transform: translateX(-8px); }
+          75% { transform: translateX(8px); }
+        }
+      `;
+      document.head.appendChild(style);
+
+      console.log('🐺 Monster Boyfriends premium page ready! 🧛👻');
+    })();
+  </script>
+</body>
+</html>
