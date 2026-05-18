@@ -10,13 +10,13 @@
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🛒</text></svg>">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <style>
-          @font-face {
-  font-family: 'Recoleta';
-  src: url('/fonts/Recoleta\ Alt\ SemiBold.otf') format('opentype');
-  font-weight: 600;
-  font-style: normal;
-  font-display: swap;
-}
+    @font-face {
+      font-family: 'Recoleta';
+      src: url('/fonts/Recoleta Alt SemiBold.otf') format('opentype');
+      font-weight: 600;
+      font-style: normal;
+      font-display: swap;
+    }
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
     :root {
@@ -100,12 +100,12 @@
     }
     .logo:hover { transform: scale(1.05) rotate(-2deg); }
     .logo img {
-      height: 55px; /* same rakho */
-  width: auto;
-  display: block;
-  transform: scale(2.4); /* yahan size control karo */
-  transform-origin: left center; /* left se grow kare */
-}
+      height: 55px;
+      width: auto;
+      display: block;
+      transform: scale(2.4);
+      transform-origin: left center;
+    }
     .logo::after {
       content: '🦇';
       position: absolute;
@@ -289,7 +289,137 @@
       to { opacity: 1; transform: translateY(0); }
     }
 
-    /* ─── PRODUCT GRID ─── */
+    /* ═══════════════════════════════════════════════
+       PRE-LAUNCH NOTICE BANNER (Compact)
+       ═══════════════════════════════════════════════ */
+    .prelaunch-banner {
+      background: linear-gradient(135deg, rgba(99,44,42,0.9) 0%, rgba(26,45,43,0.95) 100%);
+      backdrop-filter: blur(20px);
+      border-bottom: 2px solid var(--accent);
+      padding: 0;
+      position: relative;
+      overflow: hidden;
+      z-index: 100;
+      transition: all 0.5s var(--transition-smooth);
+    }
+    .prelaunch-banner.hidden {
+      max-height: 0;
+      opacity: 0;
+      padding: 0;
+      border-bottom: none;
+      overflow: hidden;
+    }
+    .prelaunch-banner-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 18px 24px;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      position: relative;
+    }
+    .prelaunch-icon-small {
+      font-size: 2rem;
+      flex-shrink: 0;
+      animation: gentleFloat 3s ease-in-out infinite;
+    }
+    .prelaunch-text {
+      flex: 1;
+      min-width: 0;
+    }
+    .prelaunch-text p {
+      font-size: 0.92rem;
+      color: rgba(255,218,217,0.9);
+      line-height: 1.6;
+    }
+    .prelaunch-regions-inline {
+      font-size: 0.8rem;
+      color: var(--accent-soft);
+      margin-top: 4px;
+      opacity: 0.85;
+    }
+    .prelaunch-countdown-small {
+      font-family: 'Staatliches', cursive;
+      font-size: 1rem;
+      color: var(--accent);
+      letter-spacing: 1.5px;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .prelaunch-close {
+      background: rgba(255,218,217,0.1);
+      border: 1px solid rgba(255,218,217,0.2);
+      color: var(--primary-light);
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 1rem;
+      flex-shrink: 0;
+      transition: all 0.3s var(--transition-smooth);
+    }
+    .prelaunch-close:hover {
+      background: rgba(239,150,156,0.2);
+      border-color: var(--accent);
+      transform: rotate(90deg);
+    }
+
+    @keyframes gentleFloat {
+      0%, 100% { transform: translateY(0) rotate(0deg); }
+      50% { transform: translateY(-6px) rotate(2deg); }
+    }
+
+    /* ─── SCROLLING BANNER ─── */
+    .scrolling-banner {
+      background: linear-gradient(90deg, var(--primary-light) 0%, var(--accent-soft) 50%, var(--primary-light) 100%);
+      background-size: 200% 100%;
+      animation: gradientShift 8s ease infinite;
+      padding: 16px 0;
+      overflow: hidden;
+      white-space: nowrap;
+      font-family: 'Cinzel', 'Playfair Display', serif;
+      font-weight: 600;
+      font-size: 1.6rem;
+      letter-spacing: 1.5px;
+      color: var(--primary);
+      position: relative;
+      border-top: 2px solid var(--accent);
+      border-bottom: 2px solid var(--accent);
+    }
+    @keyframes gradientShift {
+      0%, 100% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+    }
+    .scrolling-banner::before,
+    .scrolling-banner::after {
+      content: '👻';
+      position: absolute;
+      font-size: 1.4rem;
+      animation: ghostFloat 3s ease-in-out infinite;
+      z-index: 2;
+    }
+    .scrolling-banner::before { left: 30px; animation-delay: 0s; }
+    .scrolling-banner::after { right: 30px; animation-delay: 1.5s; }
+    @keyframes ghostFloat {
+      0%, 100% { transform: translateY(0) scale(1); }
+      50% { transform: translateY(-10px) scale(1.1); }
+    }
+    .scrolling-text {
+      display: inline-block;
+      animation: scrollText 22s linear infinite;
+      padding-left: 100%;
+    }
+    @keyframes scrollText {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-100%); }
+    }
+
+    /* ═══════════════════════════════════════════════
+       PRODUCT GRID
+       ═══════════════════════════════════════════════ */
     .shop-section {
       background: linear-gradient(135deg, var(--dark-bg) 0%, var(--darker-bg) 50%, var(--dark-bg) 100%);
       padding: 60px 24px;
@@ -372,10 +502,7 @@
     .product-card:nth-child(3) .product-creature { animation-delay: 1.6s; }
     .product-card:nth-child(4) .product-creature { animation-delay: 2.4s; }
     .product-card:nth-child(5) .product-creature { animation-delay: 3.2s; }
-    @keyframes gentleFloat {
-      0%, 100% { transform: translateY(0) rotate(0deg); }
-      50% { transform: translateY(-10px) rotate(5deg); }
-    }
+    .product-card:nth-child(6) .product-creature { animation-delay: 4.0s; }
 
     .product-info {
       padding: 20px 24px 24px;
@@ -402,12 +529,6 @@
       letter-spacing: 1px;
       margin-bottom: 14px;
     }
-    .product-price .original {
-      font-size: 1rem;
-      color: rgba(255,255,255,0.4);
-      text-decoration: line-through;
-      margin-left: 8px;
-    }
     .buy-btn {
       display: inline-flex;
       align-items: center;
@@ -422,10 +543,21 @@
       transition: all 0.4s var(--transition-bounce);
       width: 100%;
       justify-content: center;
+      border: none;
+      cursor: pointer;
     }
     .buy-btn:hover {
       transform: translateY(-2px);
       box-shadow: 0 8px 25px rgba(239,150,156,0.4);
+    }
+    .buy-btn:disabled {
+      background: rgba(255, 218, 217, 0.15);
+      color: rgba(255, 218, 217, 0.4);
+      cursor: not-allowed;
+      box-shadow: none;
+    }
+    .buy-btn:disabled:hover {
+      transform: none;
     }
 
     /* ─── SHIPPING INFO STRIP ─── */
@@ -466,7 +598,6 @@
     }
     .shipping-card:nth-child(2) .shipping-icon { animation-delay: 0.5s; }
     .shipping-card:nth-child(3) .shipping-icon { animation-delay: 1s; }
-    .shipping-card:nth-child(4) .shipping-icon { animation-delay: 1.5s; }
     @keyframes gentleBounce {
       0%, 100% { transform: translateY(0); }
       50% { transform: translateY(-8px); }
@@ -499,10 +630,6 @@
       background: linear-gradient(90deg, var(--accent), var(--primary-light), var(--accent));
       background-size: 200% 100%;
       animation: gradientShift 5s ease infinite;
-    }
-    @keyframes gradientShift {
-      0%, 100% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
     }
     .footer-content {
       position: relative;
@@ -589,7 +716,7 @@
     .footer-social a {
       color: var(--primary-light);
       text-decoration: none;
-      font-size: 1.6rem;
+      font-size: 1.4rem;
       width: 50px;
       height: 50px;
       display: flex;
@@ -606,6 +733,9 @@
       transform: translateY(-5px) scale(1.1);
       box-shadow: 0 10px 25px rgba(0,0,0,0.2);
     }
+    .footer-social a:hover i { transform: scale(1.2); }
+    .footer-social i { transition: transform 0.3s ease; }
+
     .footer-text {
       color: rgba(255,218,217,0.7);
       font-size: 0.9rem;
@@ -649,71 +779,33 @@
       .shop-title { font-size: 2.4rem; }
       .products-grid { grid-template-columns: 1fr 1fr; gap: 20px; }
       .product-image-wrap img { height: 220px; }
+
+      /* Prelaunch banner responsive */
+      .prelaunch-banner-inner {
+        flex-wrap: wrap;
+        gap: 12px;
+        padding: 14px 20px;
+      }
+      .prelaunch-text p { font-size: 0.85rem; }
+      .prelaunch-regions-inline { font-size: 0.75rem; }
+      .prelaunch-countdown-small { font-size: 0.9rem; }
+      .prelaunch-icon-small { font-size: 1.6rem; }
     }
+
     @media (max-width: 480px) {
       .shop-title { font-size: 1.9rem; }
       .products-grid { grid-template-columns: 1fr; }
       .shipping-grid { grid-template-columns: 1fr 1fr; }
-    }
 
-     /* ─── SCROLLING BANNER ─── */
-    .scrolling-banner {
-      background: linear-gradient(90deg, var(--primary-light) 0%, var(--accent-soft) 50%, var(--primary-light) 100%);
-      background-size: 200% 100%;
-      animation: gradientShift 8s ease infinite;
-      padding: 16px 0;
-      overflow: hidden;
-      white-space: nowrap;
-      font-family: 'Cinzel', 'Playfair Display', serif;
-      font-weight: 600;
-      font-size: 1.6rem;
-      letter-spacing: 1.5px;
-      color: var(--primary);
-      position: relative;
-      border-top: 2px solid var(--accent);
-      border-bottom: 2px solid var(--accent);
+      .prelaunch-banner-inner {
+        flex-direction: column;
+        text-align: center;
+        gap: 10px;
+      }
+      .prelaunch-countdown-small { white-space: normal; }
     }
-    @keyframes gradientShift {
-      0%, 100% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-    }
-    .scrolling-banner::before,
-    .scrolling-banner::after {
-      content: '👻';
-      position: absolute;
-      font-size: 1.4rem;
-      animation: ghostFloat 3s ease-in-out infinite;
-      z-index: 2;
-    }
-    .scrolling-banner::before { left: 30px; animation-delay: 0s; }
-    .scrolling-banner::after { right: 30px; animation-delay: 1.5s; }
-    @keyframes ghostFloat {
-      0%, 100% { transform: translateY(0) scale(1); }
-      50% { transform: translateY(-10px) scale(1.1); }
-    }
-
-    .scrolling-text {
-      display: inline-block;
-      animation: scrollText 22s linear infinite;
-      padding-left: 100%;
-    }
-    @keyframes scrollText {
-      0% { transform: translateX(0); }
-      100% { transform: translateX(-100%); }
-    }
-.footer-social a {
-  font-size: 1.4rem;
-}
-
-.footer-social i {
-  transition: transform 0.3s ease;
-}
-
-.footer-social a:hover i {
-  transform: scale(1.2);
-}
   </style>
-
+<base target="_blank">
 </head>
 <body>
   <!-- Ambient floating particles -->
@@ -756,7 +848,23 @@
         Signed paperbacks, exclusive editions, and cozy merch — all in one place!
       </p>
     </div>
-       <!-- Scrolling text banner -->
+
+    <!-- ═══════════════════════════════════════════════
+         PRE-LAUNCH NOTICE BANNER (Compact)
+         ═══════════════════════════════════════════════ -->
+    <div class="prelaunch-banner" id="prelaunchBanner">
+      <div class="prelaunch-banner-inner">
+        <div class="prelaunch-icon-small">📦</div>
+        <div class="prelaunch-text">
+          <p>Due to shipping costs and certain regulations, I am currently only able to ship to the United States (50 states and the District of Columbia, as well as the territories of Puerto Rico, the U.S. Virgin Islands, Guam, the Northern Mariana Islands, and American Samoa) and Canada (10 provinces and 3 territories). The store will officially open in November.</p>
+          <div class="prelaunch-regions-inline">Shipping: US + Territories &nbsp;|&nbsp; Canada + Territories</div>
+        </div>
+        <div class="prelaunch-countdown-small" id="countdownText">Opening Nov 1</div>
+        <button class="prelaunch-close" onclick="dismissBanner()" aria-label="Dismiss notice">✕</button>
+      </div>
+    </div>
+
+    <!-- Scrolling text banner -->
     <div class="scrolling-banner">
       <div class="scrolling-text">
         🦇 Werewolves, Vampires, and Ghosts... oh my! ✦ Paranormal fantasy & romance by Meg Alivien ✦ Cozy reads with a little spice! 🍑
@@ -764,47 +872,51 @@
     </div>
 
     <!-- Products Grid -->
-    <div class="shop-section">
+    <div class="shop-section" id="shopSection">
       <div class="products-grid">
+        <!-- HOWL -->
         <div class="product-card reveal">
           <span class="product-creature">🐺</span>
           <div class="product-image-wrap">
-            <img src="images/Cover Reveal_1727202516.webp" alt="HOWL Paperback">
+            <img src="images/HOWL new.png" alt="HOWL Paperback">
           </div>
           <div class="product-info">
             <div class="product-name">HOWL</div>
             <div class="product-type">Signed Paperback</div>
-            <div class="product-price">$16.99</div>
-            <a href="#" class="buy-btn">🛒 Add to Cart</a>
+            <div class="product-price">$20</div>
+            <button class="buy-btn" data-product="howl" disabled>🛒 Coming Soon</button>
           </div>
         </div>
 
+        <!-- HUNT -->
         <div class="product-card reveal reveal-delay-1">
           <span class="product-creature">🧛</span>
           <div class="product-image-wrap">
-            <img src="images/All I Want For Christmas Is... (1)_1748643476.webp" alt="HUNT Paperback">
+            <img src="images/HUNT new.png" alt="HUNT Paperback">
           </div>
           <div class="product-info">
             <div class="product-name">HUNT</div>
             <div class="product-type">Signed Paperback</div>
-            <div class="product-price">$16.99</div>
-            <a href="#" class="buy-btn">🛒 Add to Cart</a>
+            <div class="product-price">$20</div>
+            <button class="buy-btn" data-product="hunt" disabled>🛒 Coming Soon</button>
           </div>
         </div>
 
+        <!-- HAUNT -->
         <div class="product-card reveal reveal-delay-2">
           <span class="product-creature">👻</span>
           <div class="product-image-wrap">
-            <img src="images/Meet Theo (2)_1773512426.webp" alt="HAUNT Paperback">
+            <img src="images/haunt new.png" alt="HAUNT Paperback">
           </div>
           <div class="product-info">
             <div class="product-name">HAUNT</div>
             <div class="product-type">Signed Paperback</div>
-            <div class="product-price">$16.99</div>
-            <a href="#" class="buy-btn">🛒 Add to Cart</a>
+            <div class="product-price">$20</div>
+            <button class="buy-btn" data-product="haunt" disabled>🛒 Coming Soon</button>
           </div>
         </div>
 
+        <!-- Of Magic and Men -->
         <div class="product-card reveal reveal-delay-3">
           <span class="product-creature">🔮</span>
           <div class="product-image-wrap">
@@ -813,11 +925,12 @@
           <div class="product-info">
             <div class="product-name">Of Magic and Men</div>
             <div class="product-type">Signed Paperback</div>
-            <div class="product-price">$16.99</div>
-            <a href="#" class="buy-btn">🛒 Add to Cart</a>
+            <div class="product-price">$20</div>
+            <button class="buy-btn" data-product="magic" disabled>🛒 Coming Soon</button>
           </div>
         </div>
 
+        <!-- Monster Boyfriends Box Set -->
         <div class="product-card reveal">
           <span class="product-creature">📚</span>
           <div class="product-image-wrap">
@@ -826,11 +939,12 @@
           <div class="product-info">
             <div class="product-name">Monster Boyfriends</div>
             <div class="product-type">Box Set (Books 1-3)</div>
-            <div class="product-price">$45.00 <span class="original">$50.97</span></div>
-            <a href="#" class="buy-btn">🛒 Add to Cart</a>
+            <div class="product-price">$20</div>
+            <button class="buy-btn" data-product="boxset" disabled>🛒 Coming Soon</button>
           </div>
         </div>
 
+        <!-- Witchy & Shifty Edition -->
         <div class="product-card reveal reveal-delay-1">
           <span class="product-creature">🍑</span>
           <div class="product-image-wrap">
@@ -839,8 +953,8 @@
           <div class="product-info">
             <div class="product-name">Witchy & Shifty Edition</div>
             <div class="product-type">Limited Edition</div>
-            <div class="product-price">$24.99</div>
-            <a href="#" class="buy-btn">🛒 Add to Cart</a>
+            <div class="product-price">$20</div>
+            <button class="buy-btn" data-product="witchy" disabled>🛒 Coming Soon</button>
           </div>
         </div>
       </div>
@@ -865,7 +979,6 @@
           <div class="shipping-title">Free Stickers</div>
           <div class="shipping-desc">Cute bookish stickers with every order</div>
         </div>
-       
       </div>
     </div>
 
@@ -879,23 +992,20 @@
           <input type="email" placeholder="Your email address ✉️" aria-label="Email" id="newsletterEmail">
           <button id="newsletterBtn">Subscribe</button>
         </div>
-       <div class="footer-social">
-  <a href="#" aria-label="Facebook" title="Facebook">
-    <i class="fab fa-facebook-f"></i>
-  </a>
-
-  <a href="#" aria-label="Instagram" title="Instagram">
-    <i class="fab fa-instagram"></i>
-  </a>
-
-  <a href="#" aria-label="TikTok" title="TikTok">
-    <i class="fab fa-tiktok"></i>
-  </a>
-
-  <a href="#" aria-label="Goodreads" title="Goodreads">
-    <i class="fab fa-goodreads-g"></i>
-  </a>
-</div>
+        <div class="footer-social">
+          <a href="#" aria-label="Facebook" title="Facebook">
+            <i class="fab fa-facebook-f"></i>
+          </a>
+          <a href="#" aria-label="Instagram" title="Instagram">
+            <i class="fab fa-instagram"></i>
+          </a>
+          <a href="#" aria-label="TikTok" title="TikTok">
+            <i class="fab fa-tiktok"></i>
+          </a>
+          <a href="#" aria-label="Goodreads" title="Goodreads">
+            <i class="fab fa-goodreads-g"></i>
+          </a>
+        </div>
         <div class="footer-text">
           © 2026 Shop · Meg Alivien 🛒🦇👻
         </div>
@@ -905,6 +1015,50 @@
 
   <script>
     (function() {
+      /* ═══════════════════════════════════════════════
+         STORE ACTIVATION LOGIC
+         Auto-activates on November 1st of current year
+         ═══════════════════════════════════════════════ */
+      const now = new Date();
+      const currentYear = now.getFullYear();
+      const activationDate = new Date(currentYear, 10, 1); // November 1st (month is 0-indexed)
+      const isStoreActive = now >= activationDate;
+
+      const prelaunchBanner = document.getElementById('prelaunchBanner');
+      const buyButtons = document.querySelectorAll('.buy-btn');
+      const countdownText = document.getElementById('countdownText');
+
+      // Dismiss banner function
+      window.dismissBanner = function() {
+        prelaunchBanner.classList.add('hidden');
+      };
+
+      // If store is active (November or later), fully enable everything
+      if (isStoreActive) {
+        prelaunchBanner.classList.add('hidden');
+        buyButtons.forEach(btn => {
+          btn.disabled = false;
+          btn.textContent = '🛒 Add to Cart';
+          btn.addEventListener('click', function() {
+            const product = this.dataset.product;
+            showToast('🛒 ' + product.toUpperCase() + ' added to cart!');
+          });
+        });
+      } else {
+        // Pre-launch: disable all purchase buttons, show countdown
+        buyButtons.forEach(btn => {
+          btn.disabled = true;
+          btn.textContent = '🛒 Coming Soon';
+        });
+
+        // Calculate days until opening
+        const diffTime = activationDate - now;
+        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+        if (countdownText) {
+          countdownText.textContent = diffDays + ' day' + (diffDays !== 1 ? 's' : '') + ' until Nov 1';
+        }
+      }
+
       // Generate ambient particles
       const particlesContainer = document.getElementById('particles');
       const particleEmojis = ['🦇', '👻', '🐺', '🍓', '🍑', '🍊', '✨', '🌙', '🛒', '📚'];
@@ -960,6 +1114,33 @@
       }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
       revealElements.forEach(el => revealObserver.observe(el));
 
+      // Toast helper
+      function showToast(message) {
+        const toast = document.createElement('div');
+        toast.innerHTML = message;
+        toast.style.cssText = `
+          position: fixed;
+          bottom: 30px;
+          left: 50%;
+          transform: translateX(-50%) translateY(100px);
+          background: linear-gradient(135deg, #ffdad9, #f5b5ba);
+          color: #632c2a;
+          padding: 16px 32px;
+          border-radius: 30px;
+          font-weight: 600;
+          box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+          z-index: 9999;
+          transition: transform 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+          font-family: 'DM Sans', sans-serif;
+        `;
+        document.body.appendChild(toast);
+        setTimeout(() => toast.style.transform = 'translateX(-50%) translateY(0)', 100);
+        setTimeout(() => {
+          toast.style.transform = 'translateX(-50%) translateY(100px)';
+          setTimeout(() => toast.remove(), 500);
+        }, 3000);
+      }
+
       // Newsletter with cute toast
       const newsletterBtn = document.getElementById('newsletterBtn');
       const newsletterEmail = document.getElementById('newsletterEmail');
@@ -967,29 +1148,7 @@
         newsletterBtn.addEventListener('click', function(e) {
           e.preventDefault();
           if (newsletterEmail && newsletterEmail.value.trim() !== '') {
-            const toast = document.createElement('div');
-            toast.innerHTML = '🎉 Thank you for subscribing to Meg s newsletter! 💌';
-            toast.style.cssText = `
-              position: fixed;
-              bottom: 30px;
-              left: 50%;
-              transform: translateX(-50%) translateY(100px);
-              background: linear-gradient(135deg, #ffdad9, #f5b5ba);
-              color: #632c2a;
-              padding: 16px 32px;
-              border-radius: 30px;
-              font-weight: 600;
-              box-shadow: 0 10px 40px rgba(0,0,0,0.2);
-              z-index: 9999;
-              transition: transform 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-              font-family: 'DM Sans', sans-serif;
-            `;
-            document.body.appendChild(toast);
-            setTimeout(() => toast.style.transform = 'translateX(-50%) translateY(0)', 100);
-            setTimeout(() => {
-              toast.style.transform = 'translateX(-50%) translateY(100px)';
-              setTimeout(() => toast.remove(), 500);
-            }, 3000);
+            showToast('🎉 Thank you for subscribing to Meg s newsletter! 💌');
             newsletterEmail.value = '';
           } else {
             newsletterEmail.style.borderColor = '#ef969c';
@@ -1013,7 +1172,7 @@
       `;
       document.head.appendChild(style);
 
-      console.log('🛒 Shop All premium page ready! 🦇👻🐺');
+      console.log('🛒 Shop All premium page ready! Store active: ' + isStoreActive + ' 🦇👻🐺');
     })();
   </script>
 </body>
