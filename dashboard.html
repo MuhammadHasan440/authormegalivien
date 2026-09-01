@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard | Author Meg Alivien</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📖</text></svg>">
+  <link rel="stylesheet" href="/css/dashboard.css">
+  <style>
+    @font-face {
+      font-family: 'Recoleta';
+      src: url('/fonts/Recoleta Alt SemiBold.otf') format('opentype');
+      font-weight: 600;
+      font-style: normal;
+      font-display: swap;
+    }
+  </style>
+</head>
+<body>
+  <section class="login-screen" id="loginScreen">
+    <form class="login-card" id="loginForm">
+      <div class="login-badge">🦇 Admin access</div>
+      <h1>Meg Alivien Dashboard</h1>
+      <p>Sign in to view newsletter subscribers, book orders, and manage the shop.</p>
+      <label for="loginEmail">Email</label>
+      <input id="loginEmail" type="email" autocomplete="username" required placeholder="you@email.com">
+      <label for="loginPassword">Password</label>
+      <input id="loginPassword" type="password" autocomplete="current-password" required placeholder="••••••••">
+      <div class="login-error" id="loginError"></div>
+      <button class="btn-primary" id="loginBtn" type="submit">Sign in</button>
+      <p class="login-hint">Create the admin user in Firebase Console → Authentication → Users (email/password). Public signup is disabled here.</p>
+    </form>
+  </section>
+
+  <div class="app-shell hidden" id="appShell">
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+    <aside class="sidebar" id="sidebar">
+      <div class="brand">
+        <img src="/images/MA_fullname_white copy 2.png" alt="Meg Alivien">
+        <span>Dashboard</span>
+      </div>
+      <button class="nav-btn active" data-view="overview">Overview</button>
+      <button class="nav-btn" data-view="subscribers">Newsletter</button>
+      <button class="nav-btn" data-view="orders">Orders</button>
+      <button class="nav-btn" data-view="books">Shop books</button>
+      <button class="nav-btn" data-view="shop">Shop open/close</button>
+      <div class="sidebar-footer">
+        <div class="user-chip" id="userEmail"></div>
+        <button class="logout-btn" id="logoutBtn" type="button">Log out</button>
+      </div>
+    </aside>
+
+    <main class="main">
+      <div class="topbar">
+        <div>
+          <button class="menu-toggle" id="menuToggle" type="button" aria-label="Open menu">☰</button>
+          <div>
+            <h1 id="pageTitle">Overview</h1>
+            <p id="pageSubtitle">Live data from Firebase</p>
+          </div>
+        </div>
+        <div class="actions" id="pageActions"></div>
+      </div>
+
+      <section class="view active" id="view-overview">
+        <div class="stats">
+          <article class="stat-card"><span>Subscribers</span><strong id="statSubscribers">0</strong></article>
+          <article class="stat-card"><span>Orders</span><strong id="statOrders">0</strong></article>
+          <article class="stat-card"><span>Books in shop</span><strong id="statBooks">0</strong></article>
+          <article class="stat-card"><span>Shop</span><strong id="statShop">Nov 1</strong></article>
+          <article class="stat-card"><span>Order total</span><strong id="statRevenue">$0</strong></article>
+        </div>
+        <div class="shop-status-panel" id="overviewShopPanel">
+          <div>
+            <h2>Shop open / close</h2>
+            <p class="shop-status-copy" id="overviewShopCopy">Scheduled to open November 1, 2026. You can open or close it anytime.</p>
+          </div>
+          <div class="shop-mode-row">
+            <button class="shop-mode-btn" type="button" data-shop-mode="scheduled">Auto — Nov 1</button>
+            <button class="shop-mode-btn" type="button" data-shop-mode="open">Open now</button>
+            <button class="shop-mode-btn" type="button" data-shop-mode="closed">Close shop</button>
+          </div>
+        </div>
+        <div class="split">
+          <div class="panel">
+            <div class="panel-head"><h2>Recent orders</h2></div>
+            <div id="recentOrders"></div>
+          </div>
+          <div class="panel">
+            <div class="panel-head"><h2>Newest subscribers</h2></div>
+            <div id="recentSubscribers"></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="view" id="view-subscribers">
+        <div class="panel">
+          <div class="panel-head">
+            <h2>Newsletter subscribers</h2>
+            <div class="actions">
+              <input class="search-input" id="subscriberSearch" type="search" placeholder="Search email">
+              <button class="btn btn-soft" id="exportSubscribers" type="button">Export CSV</button>
+            </div>
+          </div>
+          <div class="table-wrap" id="subscribersTable"></div>
+        </div>
+      </section>
+
+      <section class="view" id="view-orders">
+        <div class="panel">
+          <div class="panel-head">
+            <h2>Book purchases</h2>
+            <select class="select" id="orderStatusFilter">
+              <option value="all">All statuses</option>
+              <option value="pending">Pending</option>
+              <option value="confirmed">Confirmed</option>
+              <option value="shipped">Shipped</option>
+              <option value="cancelled">Cancelled</option>
+            </select>
+          </div>
+          <div class="table-wrap" id="ordersTable"></div>
+        </div>
+      </section>
+
+      <section class="view" id="view-shop">
+        <div class="panel">
+          <div class="panel-head">
+            <h2>Shop availability</h2>
+            <span class="badge" id="shopLiveBadge">Scheduled</span>
+          </div>
+          <div class="shop-settings">
+            <p class="shop-status-copy" id="shopSettingsCopy">The public shop stays closed until the opening date, unless you open it now.</p>
+            <div class="shop-mode-row">
+              <button class="shop-mode-btn" type="button" data-shop-mode="scheduled">Auto — open on date</button>
+              <button class="shop-mode-btn" type="button" data-shop-mode="open">Open shop now</button>
+              <button class="shop-mode-btn" type="button" data-shop-mode="closed">Keep shop closed</button>
+            </div>
+            <label class="date-label">Opening date
+              <input class="text-input" id="shopOpenDate" type="date" value="2026-11-01">
+            </label>
+            <button class="btn btn-dark" id="saveShopDateBtn" type="button">Save opening date</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="view" id="view-books">
+        <div class="panel">
+          <div class="panel-head">
+            <h2>Shop catalog</h2>
+            <div class="actions">
+              <button class="btn btn-ghost" id="seedBooksBtn" type="button">Seed current books</button>
+              <button class="btn btn-dark" id="addBookBtn" type="button">Add book</button>
+            </div>
+          </div>
+          <div class="books-grid" id="booksGrid"></div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <div class="modal" id="bookModal">
+    <form class="modal-card" id="bookForm">
+      <h2 id="bookModalTitle">Add book</h2>
+      <p class="sub">This book will show on the public Shop page.</p>
+      <div class="form-grid">
+        <label>Title<input class="text-input" name="title" required></label>
+        <label>Type<input class="text-input" name="type" placeholder="Signed Paperback" required></label>
+        <label>Price (USD)<input class="text-input" name="price" type="number" min="0" step="0.01" required></label>
+        <label>Emoji<input class="text-input" name="emoji" maxlength="4" placeholder="🐺"></label>
+        <label>Sort order<input class="text-input" name="sortOrder" type="number" min="1" value="1"></label>
+        <label class="checkbox-row"><input type="checkbox" name="available"> Available to buy</label>
+        <label class="full">Image URL<input class="text-input" name="imageUrl" placeholder="/images/HOWL new.png"></label>
+        <label class="full">Or upload cover<input class="text-input" name="imageFile" type="file" accept="image/*"></label>
+        <label class="full">Description<textarea class="textarea" name="description" rows="3"></textarea></label>
+      </div>
+      <div class="actions" style="margin-top:18px;justify-content:flex-end">
+        <button class="btn btn-ghost" type="button" id="cancelBookBtn">Cancel</button>
+        <button class="btn btn-dark" type="submit" id="saveBookBtn">Save book</button>
+      </div>
+    </form>
+  </div>
+
+  <script type="module" src="/js/dashboard.js"></script>
+</body>
+</html>

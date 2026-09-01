@@ -1,0 +1,10 @@
+{
+  "name": "author-meg-alivien",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "config": "node scripts/generate-firebase-config.mjs",
+    "dev": "node scripts/dev-server.mjs"
+  }
+}

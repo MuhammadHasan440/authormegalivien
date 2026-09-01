@@ -1142,47 +1142,7 @@
       }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
       revealElements.forEach(el => revealObserver.observe(el));
 
-      // Newsletter with cute toast
-      const newsletterBtn = document.getElementById('newsletterBtn');
-      const newsletterEmail = document.getElementById('newsletterEmail');
-      if (newsletterBtn) {
-        newsletterBtn.addEventListener('click', function(e) {
-          e.preventDefault();
-          if (newsletterEmail && newsletterEmail.value.trim() !== '') {
-            const toast = document.createElement('div');
-            toast.innerHTML = '🎉 Thank you for subscribing to Meg s newsletter! 💌';
-            toast.style.cssText = `
-              position: fixed;
-              bottom: 30px;
-              left: 50%;
-              transform: translateX(-50%) translateY(100px);
-              background: linear-gradient(135deg, #ffdad9, #f5b5ba);
-              color: #632c2a;
-              padding: 16px 32px;
-              border-radius: 30px;
-              font-weight: 600;
-              box-shadow: 0 10px 40px rgba(0,0,0,0.2);
-              z-index: 9999;
-              transition: transform 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-              font-family: 'DM Sans', sans-serif;
-            `;
-            document.body.appendChild(toast);
-            setTimeout(() => toast.style.transform = 'translateX(-50%) translateY(0)', 100);
-            setTimeout(() => {
-              toast.style.transform = 'translateX(-50%) translateY(100px)';
-              setTimeout(() => toast.remove(), 500);
-            }, 3000);
-            newsletterEmail.value = '';
-          } else {
-            newsletterEmail.style.borderColor = '#ef969c';
-            newsletterEmail.style.animation = 'shake 0.5s ease';
-            setTimeout(() => {
-              newsletterEmail.style.borderColor = '';
-              newsletterEmail.style.animation = '';
-            }, 500);
-          }
-        });
-      }
+      // Newsletter is handled by /js/newsletter.js (Firebase)
 
       // Add shake keyframe
       const style = document.createElement('style');
@@ -1198,5 +1158,6 @@
       console.log('🌶️ Spice Ratings premium page ready! 🦇👻🐺');
     })();
   </script>
+  <script type="module" src="/js/newsletter.js"></script>
 </body>
 </html>

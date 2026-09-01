@@ -560,6 +560,110 @@
       transform: none;
     }
 
+    .checkout-modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 26, 25, 0.72);
+      display: none;
+      align-items: flex-end;
+      justify-content: center;
+      z-index: 2000;
+      padding: 16px;
+    }
+    .checkout-modal.open { display: flex; }
+    .checkout-card {
+      width: min(560px, 100%);
+      max-height: 92vh;
+      overflow: auto;
+      background: var(--warm-white);
+      color: #1a1a1a;
+      border-radius: 24px;
+      padding: 24px;
+      position: relative;
+    }
+    .checkout-card h2 {
+      font-family: 'Cinzel', serif;
+      color: var(--primary);
+      margin-bottom: 8px;
+    }
+    .checkout-card p.checkout-copy {
+      color: #664346;
+      margin-bottom: 16px;
+    }
+    .checkout-book {
+      display: flex;
+      gap: 14px;
+      background: #fff;
+      border: 1px solid rgba(99,44,42,0.12);
+      border-radius: 16px;
+      padding: 12px;
+      margin-bottom: 16px;
+    }
+    .checkout-book img {
+      width: 64px;
+      height: 86px;
+      object-fit: cover;
+      border-radius: 10px;
+    }
+    .checkout-form {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+    .checkout-form label {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--primary);
+    }
+    .checkout-form .full { grid-column: 1 / -1; }
+    .checkout-form input, .checkout-form select {
+      padding: 11px 12px;
+      border-radius: 12px;
+      border: 1px solid rgba(99,44,42,0.18);
+      font-size: 1rem;
+    }
+    .checkout-actions {
+      grid-column: 1 / -1;
+      display: flex;
+      gap: 10px;
+      justify-content: flex-end;
+      margin-top: 8px;
+    }
+    .checkout-actions button {
+      border: 0;
+      border-radius: 999px;
+      padding: 12px 18px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .checkout-cancel {
+      background: transparent;
+      color: var(--primary);
+      border: 1px solid rgba(99,44,42,0.2) !important;
+    }
+    .checkout-submit {
+      background: linear-gradient(135deg, var(--primary-light), var(--accent-soft));
+      color: var(--primary);
+    }
+    .checkout-close {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      width: 36px;
+      height: 36px;
+      border: 0;
+      border-radius: 50%;
+      background: rgba(99,44,42,0.08);
+      cursor: pointer;
+      font-size: 1.1rem;
+    }
+    @media (max-width: 600px) {
+      .checkout-form { grid-template-columns: 1fr; }
+    }
+
     /* ─── SHIPPING INFO STRIP ─── */
     .shipping-strip {
       background: linear-gradient(135deg, var(--cream) 0%, var(--soft-bg) 100%);
@@ -803,6 +907,8 @@
         gap: 10px;
       }
       .prelaunch-countdown-small { white-space: normal; }
+      .checkout-actions { flex-direction: column; }
+      .checkout-actions button { width: 100%; }
     }
   </style>
 
@@ -873,7 +979,7 @@
 
     <!-- Products Grid -->
     <div class="shop-section" id="shopSection">
-      <div class="products-grid">
+      <div class="products-grid" id="productsGrid">
         <!-- HOWL -->
         <div class="product-card reveal">
           <span class="product-creature">🐺</span>
@@ -960,6 +1066,35 @@
       </div>
     </div>
 
+    <div class="checkout-modal" id="checkoutModal">
+      <form class="checkout-card" id="checkoutForm">
+        <button type="button" class="checkout-close" data-close-checkout aria-label="Close">✕</button>
+        <h2>Complete your order</h2>
+        <p class="checkout-copy">We'll save this purchase to the dashboard and email you with next steps.</p>
+        <div id="checkoutSummary"></div>
+        <div class="checkout-form">
+          <label>Full name<input name="customerName" required autocomplete="name"></label>
+          <label>Email<input name="email" type="email" required autocomplete="email"></label>
+          <label>Phone<input name="phone" type="tel" autocomplete="tel"></label>
+          <label>Quantity<input name="quantity" id="orderQty" type="number" min="1" value="1" required></label>
+          <label class="full">Street address<input name="address" required autocomplete="street-address"></label>
+          <label>City<input name="city" required></label>
+          <label>State / Province<input name="state" required></label>
+          <label>ZIP / Postal code<input name="zip" required></label>
+          <label>Country
+            <select name="country">
+              <option>United States</option>
+              <option>Canada</option>
+            </select>
+          </label>
+          <div class="checkout-actions">
+            <button type="button" class="checkout-cancel" data-close-checkout>Cancel</button>
+            <button type="submit" class="checkout-submit" id="placeOrderBtn">Place Order</button>
+          </div>
+        </div>
+      </form>
+    </div>
+
     <!-- Shipping Info Strip -->
     <div class="shipping-strip">
       <h3 class="reveal">Shopping Perks</h3>
@@ -1015,49 +1150,12 @@
 
   <script>
     (function() {
-      /* ═══════════════════════════════════════════════
-         STORE ACTIVATION LOGIC
-         Auto-activates on November 1st of current year
-         ═══════════════════════════════════════════════ */
-      const now = new Date();
-      const currentYear = now.getFullYear();
-      const activationDate = new Date(currentYear, 10, 1); // November 1st (month is 0-indexed)
-      const isStoreActive = now >= activationDate;
-
-      const prelaunchBanner = document.getElementById('prelaunchBanner');
-      const buyButtons = document.querySelectorAll('.buy-btn');
-      const countdownText = document.getElementById('countdownText');
-
-      // Dismiss banner function
       window.dismissBanner = function() {
-        prelaunchBanner.classList.add('hidden');
+        const banner = document.getElementById('prelaunchBanner');
+        if (banner) banner.classList.add('hidden');
       };
 
-      // If store is active (November or later), fully enable everything
-      if (isStoreActive) {
-        prelaunchBanner.classList.add('hidden');
-        buyButtons.forEach(btn => {
-          btn.disabled = false;
-          btn.textContent = '🛒 Add to Cart';
-          btn.addEventListener('click', function() {
-            const product = this.dataset.product;
-            showToast('🛒 ' + product.toUpperCase() + ' added to cart!');
-          });
-        });
-      } else {
-        // Pre-launch: disable all purchase buttons, show countdown
-        buyButtons.forEach(btn => {
-          btn.disabled = true;
-          btn.textContent = '🛒 Coming Soon';
-        });
-
-        // Calculate days until opening
-        const diffTime = activationDate - now;
-        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-        if (countdownText) {
-          countdownText.textContent = diffDays + ' day' + (diffDays !== 1 ? 's' : '') + ' until Nov 1';
-        }
-      }
+      // Shop open/close and countdown are controlled from the dashboard via Firebase.
 
       // Generate ambient particles
       const particlesContainer = document.getElementById('particles');
@@ -1114,52 +1212,7 @@
       }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
       revealElements.forEach(el => revealObserver.observe(el));
 
-      // Toast helper
-      function showToast(message) {
-        const toast = document.createElement('div');
-        toast.innerHTML = message;
-        toast.style.cssText = `
-          position: fixed;
-          bottom: 30px;
-          left: 50%;
-          transform: translateX(-50%) translateY(100px);
-          background: linear-gradient(135deg, #ffdad9, #f5b5ba);
-          color: #632c2a;
-          padding: 16px 32px;
-          border-radius: 30px;
-          font-weight: 600;
-          box-shadow: 0 10px 40px rgba(0,0,0,0.2);
-          z-index: 9999;
-          transition: transform 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-          font-family: 'DM Sans', sans-serif;
-        `;
-        document.body.appendChild(toast);
-        setTimeout(() => toast.style.transform = 'translateX(-50%) translateY(0)', 100);
-        setTimeout(() => {
-          toast.style.transform = 'translateX(-50%) translateY(100px)';
-          setTimeout(() => toast.remove(), 500);
-        }, 3000);
-      }
-
-      // Newsletter with cute toast
-      const newsletterBtn = document.getElementById('newsletterBtn');
-      const newsletterEmail = document.getElementById('newsletterEmail');
-      if (newsletterBtn) {
-        newsletterBtn.addEventListener('click', function(e) {
-          e.preventDefault();
-          if (newsletterEmail && newsletterEmail.value.trim() !== '') {
-            showToast('🎉 Thank you for subscribing to Meg s newsletter! 💌');
-            newsletterEmail.value = '';
-          } else {
-            newsletterEmail.style.borderColor = '#ef969c';
-            newsletterEmail.style.animation = 'shake 0.5s ease';
-            setTimeout(() => {
-              newsletterEmail.style.borderColor = '';
-              newsletterEmail.style.animation = '';
-            }, 500);
-          }
-        });
-      }
+      // Newsletter and shop checkout are handled by Firebase modules.
 
       // Add shake keyframe
       const style = document.createElement('style');
@@ -1172,8 +1225,10 @@
       `;
       document.head.appendChild(style);
 
-      console.log('🛒 Shop All premium page ready! Store active: ' + isStoreActive + ' 🦇👻🐺');
+      console.log('🛒 Shop All premium page ready! 🦇👻🐺');
     })();
   </script>
+  <script type="module" src="/js/newsletter.js"></script>
+  <script type="module" src="/js/shop.js"></script>
 </body>
 </html>

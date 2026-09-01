@@ -1,0 +1,39 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function validEmail(value) {
+      return value is string
+        && value.size() > 3
+        && value.size() < 320;
+    }
+
+    match /books/{bookId} {
+      allow read: if true;
+      allow create, update, delete: if isSignedIn();
+    }
+
+    match /subscribers/{subscriberId} {
+      allow get: if true;
+      allow list: if isSignedIn();
+      allow create: if validEmail(request.resource.data.email);
+      allow update: if validEmail(request.resource.data.email);
+      allow delete: if isSignedIn();
+    }
+
+    match /orders/{orderId} {
+      allow create: if validEmail(request.resource.data.email)
+        && request.resource.data.customerName is string
+        && request.resource.data.bookTitle is string;
+      allow read, update, delete: if isSignedIn();
+    }
+
+    match /settings/{settingId} {
+      allow read: if true;
+      allow create, update, delete: if isSignedIn();
+    }
+  }
+}
