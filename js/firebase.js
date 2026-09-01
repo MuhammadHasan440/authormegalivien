@@ -2,7 +2,16 @@ import { initializeApp } from 'https://www.gstatic.com/firebasejs/11.0.2/firebas
 import { getAuth } from 'https://www.gstatic.com/firebasejs/11.0.2/firebase-auth.js';
 import { getFirestore } from 'https://www.gstatic.com/firebasejs/11.0.2/firebase-firestore.js';
 import { getStorage } from 'https://www.gstatic.com/firebasejs/11.0.2/firebase-storage.js';
-import { firebaseConfig } from './firebase-config.js';
+
+const firebaseConfig = {
+  apiKey: 'AIzaSyBq_pPyosA1wzLOzizV1liYb5SVVCdpAQw',
+  authDomain: 'author-meg.firebaseapp.com',
+  projectId: 'author-meg',
+  storageBucket: 'author-meg.firebasestorage.app',
+  messagingSenderId: '35742366130',
+  appId: '1:35742366130:web:267a11c7e674c5f1578cab',
+  measurementId: 'G-K1BYVHXYSF'
+};
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);

@@ -421,9 +421,15 @@ loginForm.addEventListener('submit', async (event) => {
       document.getElementById('loginPassword').value
     );
   } catch (error) {
-    loginError.textContent = error.code === 'auth/invalid-credential'
-      ? 'Wrong email or password.'
-      : (error.message || 'Could not sign in.');
+    const messages = {
+      'auth/invalid-credential': 'Wrong email or password.',
+      'auth/user-not-found': 'Wrong email or password.',
+      'auth/wrong-password': 'Wrong email or password.',
+      'auth/invalid-email': 'Enter a valid email address.',
+      'auth/operation-not-allowed': 'Enable Email/Password in Firebase Authentication → Sign-in method.',
+      'auth/unauthorized-domain': 'Add authormegalivien.com and www.authormegalivien.com in Firebase Authentication → Settings → Authorized domains.'
+    };
+    loginError.textContent = messages[error.code] || error.message || 'Could not sign in.';
   } finally {
     loginBtn.disabled = false;
     loginBtn.textContent = 'Sign in';
